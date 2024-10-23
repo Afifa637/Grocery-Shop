@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Grocery shop</string>
+    <string name="intro_title">"Let's Find <font color="#F3C024">the Best &amp;\n Healthy </font> Grocery"</string>
+    <string name="intro_moto">Welcome to our world of wholesome delights! Explore nature\'s goodness with our vibrant selection of healthy and delicious fruits</string>
+    <string name="intro_login">Already Have an Account?<font color="#f3c024"> Sign in </font> </string>
+
+</resources>

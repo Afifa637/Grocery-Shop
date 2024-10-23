@@ -1,0 +1,35 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GroceryShop" parent="Base.Theme.GroceryShop" />
+
+    <!-- Dark Mode -->
+    <style name="SCREEN">
+        <item name="android:background"> @color/black3 </item>
+    </style>
+
+    <style name="SCREEN2">
+        <item name="android:background"> @drawable/dark_grey_bg </item>
+    </style>
+
+    <style name="SCREEN3">
+        <item name="android:background"> @drawable/oval_black </item>
+    </style>
+
+    <style name="TITLETEXT">
+        <item name="android:textColor"> @color/whit2 </item>
+    </style>
+
+    <style name="TEXT">
+        <item name="android:textColor"> @color/white </item>
+    </style>
+
+    <style name="BUTTON">
+        <item name="android:background"> @color/yellow </item>
+        <item name="android:textColor">@color/black3</item>
+    </style>
+
+    <style name="Base.Theme.GroceryShop" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="tintColor">@color/white</item> <!-- Tint color for dark mode -->
+    </style>
+
+</resources>

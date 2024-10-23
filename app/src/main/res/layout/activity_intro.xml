@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F1F1"
+    tools:context=".Activity.IntroActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/SCREEN">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="381dp"
+                app:srcCompat="@drawable/intro_pic" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/TITLETEXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/intro_title"
+                android:textStyle="bold"
+                android:textSize="31dp"
+                android:layout_margin="15dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/TEXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/intro_moto"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                android:layout_margin="16dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/startBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/btn_yellow"
+                style="@android:style/Widget.Button"
+                android:layout_margin="20dp"
+                android:text="Start Shopping!"
+                android:textStyle="bold"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/TEXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/intro_login"
+                android:textAlignment="center"
+                android:layout_marginBottom="24dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
