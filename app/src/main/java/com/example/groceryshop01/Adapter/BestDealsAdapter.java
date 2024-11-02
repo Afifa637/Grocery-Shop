@@ -2,23 +2,20 @@ package com.example.groceryshop01.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.example.groceryshop01.Domain.BestDealsDomain;
 import com.example.groceryshop01.databinding.ViewholderBestlistBinding;
-
 import java.util.ArrayList;
 
 public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.Viewholder> {
 
     private ArrayList<BestDealsDomain> items;
     private Context context;
+    ViewholderBestlistBinding binding;
 
     public BestDealsAdapter(Context context, ArrayList<BestDealsDomain> items) {
         this.context = context;
@@ -28,7 +25,8 @@ public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.View
     @NonNull
     @Override
     public BestDealsAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewholderBestlistBinding binding = ViewholderBestlistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        binding = ViewholderBestlistBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        context = parent.getContext();
         return new Viewholder(binding);
     }
 
@@ -47,11 +45,6 @@ public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.View
                 .load(drawableResource)
                 .transform(new GranularRoundedCorners(30, 30, 0, 0))
                 .into(holder.binding.pic);
-
-        // Set onClickListener for item
-        holder.itemView.setOnClickListener(v -> {
-            // Implement intent or action here
-        });
     }
 
     @Override
