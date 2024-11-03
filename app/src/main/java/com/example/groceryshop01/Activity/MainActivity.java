@@ -1,9 +1,11 @@
 package com.example.groceryshop01.Activity;
 
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -25,7 +27,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        statusBarColor();
         initRecyclerView();
+    }
+
+    private void statusBarColor() {
+        Window window = MainActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.medium_sea_green));
     }
 
     private void initRecyclerView(){
