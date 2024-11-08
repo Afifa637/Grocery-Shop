@@ -1,6 +1,8 @@
 package com.example.groceryshop01.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 
 import androidx.activity.EdgeToEdge;
@@ -27,9 +29,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+    
         statusBarColor();
         initRecyclerView();
+        bottomNavigation();
+    }
+
+    private void bottomNavigation() {
+        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
     }
 
     private void statusBarColor() {
@@ -46,6 +53,6 @@ public class MainActivity extends AppCompatActivity {
         items.add(new BestDealsDomain("Watermelon", "watermelon", 600, 7, "Refreshing watermelon, perfect for hot days."));
 
         binding.bestdealsview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        binding.bestdealsview.setAdapter(new BestDealsAdapter(this, items));
+        binding.bestdealsview.setAdapter(new BestDealsAdapter(items));
     }
 }

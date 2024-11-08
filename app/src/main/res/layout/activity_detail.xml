@@ -38,7 +38,7 @@
 
                 <!-- Back Button Image -->
                 <ImageView
-                    android:id="@+id/imageViewBack"
+                    android:id="@+id/backBtn"
                     android:layout_width="31dp"
                     android:layout_height="36dp"
                     android:layout_margin="8dp"
@@ -48,17 +48,6 @@
                     app:srcCompat="@drawable/backbtn" />
 
                 <!-- Title Text -->
-                <TextView
-                    android:id="@+id/textViewTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Title"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@id/imageViewIcon"
-                    app:layout_constraintStart_toEndOf="@id/imageViewBack"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- Action Icon -->
                 <ImageView
@@ -68,14 +57,17 @@
                     android:layout_marginEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/backBtn"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
                     app:srcCompat="@drawable/btn_2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Additional Image Below Toolbar -->
             <ImageView
-                android:id="@+id/imageViewContent"
+                android:id="@+id/itemPic"
                 android:layout_width="322dp"
                 android:layout_height="183dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +81,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/priceTxt"
             android:layout_width="99dp"
             android:layout_height="41dp"
             android:layout_marginTop="4dp"
@@ -113,7 +105,7 @@
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7">
+            app:layout_constraintTop_toBottomOf="@+id/priceTxt">
 
             <TextView
                 android:id="@+id/textView12"
@@ -156,7 +148,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/titleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -186,11 +178,12 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:numStars="5"
+                android:stepSize="0.5"
                 android:progressTint="@color/yellow"
-                android:rating="4" />
+                android:rating="0" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/ratingTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -215,7 +208,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/descriptionTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -228,16 +221,18 @@
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
-            android:layout_width="144dp"
-            android:layout_height="36dp"
+            android:id="@+id/addtocartBtn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:layout_marginBottom="36dp"
             android:background="@drawable/button_bg"
-            android:text="Button"
+            android:text="Add To Cart"
             android:textColor="@color/white"
             android:textSize="17dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.876"
             app:layout_constraintStart_toStartOf="parent" />

@@ -9,7 +9,7 @@
                 android:topRightRadius="20dp"/>
             <gradient
                 android:startColor="@color/pale_green"
-                android:endColor="@color/light_yellow"
+                android:endColor="@color/white"
                 android:angle="90"/>
         </shape>
     </item>
