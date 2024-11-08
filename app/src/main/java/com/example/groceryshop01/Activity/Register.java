@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class Register extends AppCompatActivity {
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    CheckBox isAdminBox, isCustomerBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,43 +46,90 @@ public class Register extends AppCompatActivity {
         password = findViewById(R.id.regPassword);
         registerBtn = findViewById(R.id.buttonCreateAccount);
         gotoLogin = findViewById(R.id.buttonLogin);
+        isAdminBox = findViewById(R.id.checkBoxAdmin);
+        isCustomerBox = findViewById(R.id.checkBoxCustomer);
 
+        //check boxes logic
+        isCustomerBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(compoundButton.isChecked()){
+                    isAdminBox.setChecked(false);
+                }
+            }
+        });
+
+        isAdminBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(compoundButton.isChecked()){
+                    isCustomerBox.setChecked(false);
+                }
+            }
+        });
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Reset valid to true at the beginning of each registration attempt
+                valid = true;
+
+                // Check each field individually
                 checkField(fullname);
                 checkField(email);
                 checkField(password);
 
-                if(valid){
-                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            FirebaseUser user = fAuth.getCurrentUser();
-                            Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
-                            DocumentReference df = fStore.collection("Users").document(user.getUid());
-                            Map<String, Object> userInfo = new HashMap<>();
-                            userInfo.put("FullName", fullname.getText().toString());
-                            userInfo.put("UserEmail", email.getText().toString());
+                // Ensure account type is selected
+                if (!(isAdminBox.isChecked() || isCustomerBox.isChecked())) {
+                    Toast.makeText(Register.this, "Select the Account Type", Toast.LENGTH_SHORT).show();
+                    valid = false;
+                }
 
-                            //specify if user is admin
-                            userInfo.put("isUser", "1" );
+                if (valid) {
+                    // Proceed with account creation
+                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    FirebaseUser user = fAuth.getCurrentUser();
+                                    Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
 
-                            df.set(userInfo);
+                                    // Store user data
+                                    DocumentReference df = fStore.collection("Users").document(user.getUid());
+                                    Map<String, Object> userInfo = new HashMap<>();
+                                    userInfo.put("FullName", fullname.getText().toString());
+                                    userInfo.put("UserEmail", email.getText().toString());
 
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            finish();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Register.this, "Failed to create account", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                                    // Specify if user is admin or customer
+                                    if (isAdminBox.isChecked()) {
+                                        userInfo.put("isAdmin", "1");
+                                    }
+                                    if (isCustomerBox.isChecked()) {
+                                        userInfo.put("isCustomer", "1");
+                                    }
+
+                                    // Save user information in Firestore
+                                    df.set(userInfo);
+
+                                    // Redirect to appropriate activity
+                                    if (isAdminBox.isChecked()) {
+                                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                                    } else if (isCustomerBox.isChecked()) {
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    }
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Register.this, "Failed to create account", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             }
         });
+
 
         gotoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
