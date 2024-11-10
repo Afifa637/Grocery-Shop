@@ -37,7 +37,7 @@
         android:layout_height="80dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/plus"
-        android:src="@drawable/btn_4"
+        android:src="@drawable/intopic"
         app:layout_constraintTop_toBottomOf="@id/profileTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -132,7 +132,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/btn_4" />
+                android:src="@drawable/intro_pic" />
 
             <TextView
                 android:layout_width="0dp"
@@ -160,7 +160,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/btn_4" />
+                android:src="@drawable/intopic" />
 
             <TextView
                 android:layout_width="0dp"
@@ -188,7 +188,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/btn_4" />
+                android:src="@drawable/intro_pic" />
 
             <TextView
                 android:layout_width="0dp"
@@ -216,7 +216,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/btn_4" />
+                android:src="@drawable/intopic" />
 
             <TextView
                 android:layout_width="0dp"

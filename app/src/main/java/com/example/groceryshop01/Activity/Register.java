@@ -113,7 +113,7 @@ public class Register extends AppCompatActivity {
 
                                     // Redirect to appropriate activity
                                     if (isAdminBox.isChecked()) {
-                                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                                     } else if (isCustomerBox.isChecked()) {
                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                     }

@@ -1,5 +1,6 @@
 package com.example.groceryshop01.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -30,11 +31,16 @@ public class CartActivity extends AppCompatActivity {
         initlist();
         calculatorCart();
         statusBarColor();
+        buttonNavigation();
     }
 
     private void statusBarColor() {
         Window window = CartActivity.this.getWindow();
         window.setStatusBarColor(ContextCompat.getColor(CartActivity.this, R.color.medium_sea_green));
+    }
+
+    private void buttonNavigation() {
+        binding.backBtn.setOnClickListener(v -> startActivity(new Intent(CartActivity.this, MainActivity.class)));
     }
 
     private void initlist(){

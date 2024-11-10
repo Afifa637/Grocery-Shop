@@ -52,7 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         Glide.with(context)
                 .load(drawableResource)
                 .transform(new GranularRoundedCorners(30, 30, 0, 0))
-                .into(holder.binding.pic);
+                .into(holder.binding.menuBtn);
 
         // Set up plus and minus button listeners
         holder.binding.plusCartBtn.setOnClickListener(v -> {

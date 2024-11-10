@@ -1,8 +1,6 @@
 
 package com.example.groceryshop01.Activity;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -84,7 +82,7 @@ public class Login extends AppCompatActivity {
                     //identify the user access level
                     if(documentSnapshot.getString("isAdmin") != null){
                         //user is admin
-                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         finish();
                     }
                     if(documentSnapshot.getString("isCustomer") != null){
@@ -115,7 +113,7 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if(documentSnapshot.getString("isAdmin") != null){
-                        startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         finish();
                     }
 
