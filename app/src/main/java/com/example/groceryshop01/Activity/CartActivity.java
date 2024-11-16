@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -14,7 +15,7 @@ import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityCartBinding;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends BaseActivity {
 
     private ManagmentCart managmentCart;
     private ActivityCartBinding binding;
@@ -24,7 +25,10 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot()); // Corrected to use binding's root
+
+        // Add CartActivity's layout to BaseActivity's FrameLayout
+        FrameLayout activityContent = findViewById(R.id.activityContent);
+        activityContent.addView(binding.getRoot());// Corrected to use binding's root
 
         managmentCart = new ManagmentCart(this); // Initialize managmentCart
         setVariable();
@@ -47,6 +51,7 @@ public class CartActivity extends AppCompatActivity {
         // Check if the cart is empty and show/hide elements accordingly
         if(managmentCart.getListCart().isEmpty()){
             binding.emptyTxt.setVisibility(View.VISIBLE);
+            binding.backBtn.setVisibility(View.VISIBLE);
             binding.scroll.setVisibility(View.GONE);
         } else {
             binding.emptyTxt.setVisibility(View.GONE);
@@ -73,6 +78,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void setVariable(){
+        binding.backBtn.setVisibility(View.VISIBLE);
         binding.backBtn.setOnClickListener(v -> finish());
     }
 }

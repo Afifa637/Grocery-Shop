@@ -3,6 +3,7 @@ package com.example.groceryshop01.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,23 +15,27 @@ import com.example.groceryshop01.Adapter.BestDealsAdapter;
 import com.example.groceryshop01.Domain.BestDealsDomain;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityMainBinding;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private FirebaseFirestore fStore;
     private FirebaseAuth fAuth;
     private TextView userNameTextView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        FrameLayout activityContent = findViewById(R.id.activityContent);
+        activityContent.addView(binding.getRoot());
 
         fStore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
@@ -38,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         statusBarColor();
         initRecyclerView();
-        bottomNavigation();
+        //bottomNavigation();
         loadUserName();
         setVariable();
     }
@@ -71,11 +76,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /*
     private void bottomNavigation() {
         binding.homeBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, Login.class)));
         binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
         binding.profBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
-    }
+    }*/
 
     private void statusBarColor() {
         Window window = MainActivity.this.getWindow();

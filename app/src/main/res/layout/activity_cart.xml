@@ -43,6 +43,7 @@
                     android:layout_width="54dp"
                     android:layout_height="49dp"
                     android:padding="8dp"
+                    android:visibility="visible"
                     app:srcCompat="@drawable/backbtn" />
 
                 <TextView
@@ -212,4 +213,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

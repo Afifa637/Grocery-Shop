@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +12,7 @@ import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityAdminBinding;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     private ActivityAdminBinding binding;
 
@@ -19,7 +20,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAdminBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_admin);
+        FrameLayout activityContent = findViewById(R.id.activityContent);
+        activityContent.addView(binding.getRoot());
 
         binding.logoutBtn.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();

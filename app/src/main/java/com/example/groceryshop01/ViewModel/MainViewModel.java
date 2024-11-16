@@ -2,19 +2,21 @@ package com.example.groceryshop01.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.groceryshop01.Domain.ItemsDomain;
+
 import com.example.groceryshop01.Adapter.ItemsModel;
-import java.util.ArrayList;
+import com.example.groceryshop01.Repository.MainRepository;
+
+import java.util.List;
 
 public class MainViewModel extends ViewModel {
 
-    private final ItemsModel itemsModel;
+    private final MainRepository repository;
 
     public MainViewModel() {
-        itemsModel = new ItemsModel();  // Initialize ItemsModel
+        repository = new MainRepository();  // Initialize repository
     }
 
-    public LiveData<ArrayList<ItemsDomain>> loadFiltered(int id) {
-        return itemsModel.loadFiltered(id);  // Call ItemsModel method
+    public LiveData<List<ItemsModel>> loadFiltered(int categoryId) {
+        return repository.loadFiltered(categoryId);  // Call repository method
     }
 }

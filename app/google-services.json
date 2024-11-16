@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "87420031427",
-    "project_id": "grocery-shop01",
-    "storage_bucket": "grocery-shop01.firebasestorage.app"
+    "project_number": "789531847671",
+    "project_id": "groceryshop01-a6c8a",
+    "storage_bucket": "groceryshop01-a6c8a.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:87420031427:android:6e9211a2e21d34a654ad76",
+        "mobilesdk_app_id": "1:789531847671:android:8180320369cd162c7f5cf2",
         "android_client_info": {
           "package_name": "com.example.groceryshop01"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAtrsDp-e0lEXmrKk7yGsEhJU9LfBQDqFc"
+          "current_key": "AIzaSyB8DqkZMGpGU-c5LTaJ9dEexuvSr3xti-g"
         }
       ],
       "services": {

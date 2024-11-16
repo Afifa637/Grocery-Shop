@@ -124,6 +124,7 @@ public class Register extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(Register.this, "Failed to create account", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
                                 }
                             });
                 }
