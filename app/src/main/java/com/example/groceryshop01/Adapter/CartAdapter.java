@@ -18,13 +18,13 @@ import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
-    private ArrayList<BestDealsDomain> items;
+    private ArrayList<BestDealsDomain> bestDealsDomains;
     private Context context;
     private ChangeNumberItemsListener changeNumberItemsListener;
     private ManagmentCart managmentCart;
 
-    public CartAdapter(ArrayList<BestDealsDomain> items, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
-        this.items = items;
+    public CartAdapter(ArrayList<BestDealsDomain> bestDealsDomains, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
+        this.bestDealsDomains = bestDealsDomains;
         this.managmentCart = managmentCart;
         this.changeNumberItemsListener = changeNumberItemsListener;
     }
@@ -39,7 +39,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.Viewholder holder, int position) {
-        BestDealsDomain item = items.get(position);
+        BestDealsDomain item = bestDealsDomains.get(position);
 
         // Set text for item name, price, and quantity
         holder.binding.titleTxt.setText(item.getTitle());
@@ -56,14 +56,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
         // Set up plus and minus button listeners
         holder.binding.plusCartBtn.setOnClickListener(v -> {
-            managmentCart.plusNumberItem(items, position, () -> {
+            managmentCart.plusNumberItem(bestDealsDomains, position, () -> {
                 notifyItemChanged(position);
                 changeNumberItemsListener.change();
             });
         });
 
         holder.binding.minusCartBtn.setOnClickListener(v -> {
-            managmentCart.minusNumberItem(items, position, () -> {
+            managmentCart.minusNumberItem(bestDealsDomains, position, () -> {
                 notifyItemChanged(position);
                 changeNumberItemsListener.change();
             });
@@ -72,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return bestDealsDomains.size();
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder {

@@ -10,44 +10,48 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceryshop01.Activity.DetailActivity;
+import com.example.groceryshop01.Domain.ItemsModel;
 import com.example.groceryshop01.databinding.ViewholderItemBinding;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
 
-    private final List<com.example.groceryshop01.Adapter.ItemsModel> items;
+    private final ArrayList<ItemsModel> items;
     private Context context;
+    ViewholderItemBinding binding;
 
-    public ListItemAdapter(List<com.example.groceryshop01.Adapter.ItemsModel> items) {
+    public ListItemAdapter(ArrayList<ItemsModel> items, Context context) {
         this.items = items;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        ViewholderItemBinding binding = ViewholderItemBinding.inflate(LayoutInflater.from(context), parent, false);
+        binding = ViewholderItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        com.example.groceryshop01.Adapter.ItemsModel item = items.get(position);
+        ItemsModel item = items.get(position);
 
         holder.binding.titleTxt.setText(item.getTitle());
         holder.binding.feeTxt.setText("Tk " + item.getPrice());
         holder.binding.scrTxt.setText(String.valueOf(item.getScore()));
 
+        int drawableResource = holder.itemView.getResources().getIdentifier(
+                items.get(position).getPicUrl(), "drawable", holder.itemView.getContext().getPackageName());
         Glide.with(context)
-                .load(item.getPicUrl().get(0)) // Assuming `getPicUrl` returns a list of image URLs
+                .load(item.getPicUrl()) // Assuming `getPicUrl` returns a list of image URLs
                 .into(holder.binding.pic);
 
         // Open DetailActivity on item click
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra("object", item);  // Make sure `ItemsModel` implements Serializable or Parcelable
+            intent.putExtra("itemsModel", item);  // Make sure `ItemsModel` implements Serializable or Parcelable
             context.startActivity(intent);
         });
     }

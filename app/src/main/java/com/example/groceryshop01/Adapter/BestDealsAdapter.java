@@ -50,7 +50,8 @@ public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.View
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra("object", items.get(position));
+            intent.putExtra("bestDealsDomain", items.get(position));  // Using the same key "bestDealsDomain"
+
             context.startActivity(intent);
         });
     }

@@ -10,10 +10,13 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.groceryshop01.Domain.ItemsModel;
 import com.example.groceryshop01.Adapter.ListItemAdapter;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.ViewModel.MainViewModel;
 import com.example.groceryshop01.databinding.ActivityListBinding;
+
+import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -51,6 +54,10 @@ public class ListActivity extends AppCompatActivity {
             case 4:
                 binding.pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.dairy));
                 break;
+            default:
+                binding.pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.grocery_bg));
+                break;
+
         }
 
         // Set up RecyclerView layout manager and adapter
@@ -60,12 +67,12 @@ public class ListActivity extends AppCompatActivity {
         binding.progressBar2.setVisibility(View.VISIBLE);
 
         // Load items and set adapter
-        viewModel.loadFiltered(categoryId).observe(this, items -> {
+        viewModel.loadFiltered(context, categoryId).observe(this, items -> {
             if (items.isEmpty()) {
                 binding.emptyTxt.setVisibility(View.VISIBLE);
             } else {
                 binding.emptyTxt.setVisibility(View.GONE);
-                binding.view.setAdapter(new ListItemAdapter(items));
+                binding.view.setAdapter(new ListItemAdapter((ArrayList<ItemsModel>) items, context));
             }
             binding.progressBar2.setVisibility(View.GONE);
         });

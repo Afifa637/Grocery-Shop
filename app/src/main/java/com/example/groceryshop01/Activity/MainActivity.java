@@ -90,13 +90,14 @@ public class MainActivity extends BaseActivity {
 
     private void initRecyclerView() {
         ArrayList<BestDealsDomain> items = new ArrayList<>();
-        items.add(new BestDealsDomain("Orange", "orange", 400, 3, "Fresh and juicy oranges packed with vitamin C."));
-        items.add(new BestDealsDomain("Apple", "apple", 500, 5, "Crisp and sweet apples, perfect for a healthy snack."));
-        items.add(new BestDealsDomain("Berry", "berry", 350, 4, "A mix of berries rich in antioxidants and flavor."));
-        items.add(new BestDealsDomain("Strawberry", "strawberry", 450, 2, "Delicious strawberries that are sweet and juicy."));
-        items.add(new BestDealsDomain("Watermelon", "watermelon", 600, 7, "Refreshing watermelon, perfect for hot days."));
+        items.add(new BestDealsDomain("Orange", "orange", 400, 3, "Fresh and juicy oranges packed with vitamin C.", 1));
+        items.add(new BestDealsDomain("Apple", "apple", 500, 5, "Crisp and sweet apples, perfect for a healthy snack.",1));
+        items.add(new BestDealsDomain("Berry", "berry", 350, 4, "A mix of berries rich in antioxidants and flavor.",1));
+        items.add(new BestDealsDomain("Strawberry", "strawberry", 450, 2, "Delicious strawberries that are sweet and juicy.",1));
+        items.add(new BestDealsDomain("Watermelon", "watermelon", 600, 7, "Refreshing watermelon, perfect for hot days.",1));
 
         binding.bestdealsview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.bestdealsview.setAdapter(new BestDealsAdapter(items));
     }
+
 }

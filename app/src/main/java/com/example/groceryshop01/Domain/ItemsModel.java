@@ -1,35 +1,31 @@
-package com.example.groceryshop01.Adapter;
+package com.example.groceryshop01.Domain;
 
-import androidx.lifecycle.MutableLiveData;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.example.groceryshop01.Model.CartItem;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
-public class ItemsModel implements Serializable {
+public class ItemsModel implements Serializable, CartItem {
 
     private String title;
     private String description;
-    private ArrayList<String> picUrl;  // Assuming picUrl is a list of URLs for images
+    private String picUrl;  // Assuming picUrl is a list of URLs for images
     private double price;
     private double score;
     private int categoryId;
+    private int numberInCart;
 
     // Default constructor (required for Firebase)
     public ItemsModel() {}
 
     // Constructor with parameters
-    public ItemsModel(String title, String description, ArrayList<String> picUrl, double price, double score, int categoryId) {
+    public ItemsModel(String title, String description, String picUrl, double price, double score, int categoryId, int numberInCart) {
         this.title = title;
         this.description = description;
         this.picUrl = picUrl;
         this.price = price;
         this.score = score;
         this.categoryId = categoryId;
+        this.numberInCart = numberInCart;
     }
 
     // Getters and Setters
@@ -49,16 +45,26 @@ public class ItemsModel implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<String> getPicUrl() {
+    @Override
+    public void setImagePath(String imagePath) {
+
+    }
+
+    public String getPicUrl() {
         return picUrl;
     }
 
-    public void setPicUrl(ArrayList<String> picUrl) {
+    public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
 
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public String getImagePath() {
+        return "";
     }
 
     public void setPrice(double price) {
@@ -80,6 +86,12 @@ public class ItemsModel implements Serializable {
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
+    public int getNumberInCart() {
+        return numberInCart;
+    }
 
+    public void setNumberInCart(int numberInCart) {
+        this.numberInCart = numberInCart;
+    }
 
 }
