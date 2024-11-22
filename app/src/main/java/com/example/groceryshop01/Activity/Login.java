@@ -41,54 +41,35 @@ public class Login extends AppCompatActivity {
         loginBtn = findViewById(R.id.buttonLogin);
         gotoRegister = findViewById(R.id.buttonGotoReg);
 
-        loginBtn.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkField(email);
-                checkField(password);
-                Log.d("TAG", "onClick: " + email.getText().toString()); 
+        loginBtn.setOnClickListener((v -> {
+            checkField(email);
+            checkField(password);
+            Log.d("TAG", "onClick: " + email.getText().toString());
 
-                if (valid) {
-                    fAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(Login.this, "Logged in Successfully.", Toast.LENGTH_SHORT).show();
-                            checkUserAccessLevel(authResult.getUser().getUid());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+            if (valid) {
+                fAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnSuccessListener(authResult -> {
+                    Toast.makeText(Login.this, "Logged in Successfully.", Toast.LENGTH_SHORT).show();
+                    checkUserAccessLevel(authResult.getUser().getUid());
+                }).addOnFailureListener(e -> Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show());
             }
         }));
 
-        gotoRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Register.class));
-            }
-        });
+        gotoRegister.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Register.class)));
     }
 
         private void checkUserAccessLevel(String uid){
             DocumentReference df = fStore.collection("Users").document(uid);
-            df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
-                    //identify the user access level
-                    if(documentSnapshot.getString("isAdmin") != null){
-                        //user is admin
-                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                        finish();
-                    }
-                    if(documentSnapshot.getString("isCustomer") != null){
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                    }
+            df.get().addOnSuccessListener(documentSnapshot -> {
+                Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
+                //identify the user access level
+                if (documentSnapshot.getString("isAdmin") != null) {
+                    //user is admin
+                    startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
+                    finish();
+                }
+                if (documentSnapshot.getString("isCustomer") != null) {
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
                 }
             });
         }
@@ -104,7 +85,7 @@ public class Login extends AppCompatActivity {
         return valid;
     }
 
-
+/*
     @Override
     protected void onStart() {
         super.onStart();
@@ -132,5 +113,5 @@ public class Login extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 }

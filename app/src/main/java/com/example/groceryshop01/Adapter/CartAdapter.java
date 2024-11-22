@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
-import com.example.groceryshop01.Domain.BestDealsDomain;
+import com.example.groceryshop01.Domain.ItemsModel;
 import com.example.groceryshop01.Helper.ChangeNumberItemsListener;
 import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.databinding.ViewholderCartBinding;
@@ -18,13 +18,13 @@ import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
-    private ArrayList<BestDealsDomain> bestDealsDomains;
+    private final ArrayList<ItemsModel> itemsModels;
     private Context context;
     private ChangeNumberItemsListener changeNumberItemsListener;
     private ManagmentCart managmentCart;
 
-    public CartAdapter(ArrayList<BestDealsDomain> bestDealsDomains, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
-        this.bestDealsDomains = bestDealsDomains;
+    public CartAdapter(ArrayList<ItemsModel> itemsModels, ManagmentCart managmentCart, ChangeNumberItemsListener changeNumberItemsListener) {
+        this.itemsModels = itemsModels;
         this.managmentCart = managmentCart;
         this.changeNumberItemsListener = changeNumberItemsListener;
     }
@@ -39,7 +39,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.Viewholder holder, int position) {
-        BestDealsDomain item = bestDealsDomains.get(position);
+        ItemsModel item = itemsModels.get(position);
 
         // Set text for item name, price, and quantity
         holder.binding.titleTxt.setText(item.getTitle());
@@ -55,24 +55,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
                 .into(holder.binding.menuBtn);
 
         // Set up plus and minus button listeners
-        holder.binding.plusCartBtn.setOnClickListener(v -> {
-            managmentCart.plusNumberItem(bestDealsDomains, position, () -> {
-                notifyItemChanged(position);
-                changeNumberItemsListener.change();
-            });
-        });
+        holder.binding.plusCartBtn.setOnClickListener(v -> managmentCart.plusNumberItem(itemsModels, position, () -> {
+            notifyItemChanged(position);
+            changeNumberItemsListener.change();
+        }));
 
-        holder.binding.minusCartBtn.setOnClickListener(v -> {
-            managmentCart.minusNumberItem(bestDealsDomains, position, () -> {
-                notifyItemChanged(position);
-                changeNumberItemsListener.change();
-            });
-        });
+        holder.binding.minusCartBtn.setOnClickListener(v -> managmentCart.minusNumberItem(itemsModels, position, () -> {
+            notifyItemChanged(position);
+            changeNumberItemsListener.change();
+        }));
     }
 
     @Override
     public int getItemCount() {
-        return bestDealsDomains.size();
+        return itemsModels.size();
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder {

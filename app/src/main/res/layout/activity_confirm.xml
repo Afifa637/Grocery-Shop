@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ConfirmActivity">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginTop="32dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <ImageView
+          android:id="@+id/backBtn"
+          android:layout_width="24dp"
+          android:layout_height="24dp"
+          android:visibility="visible"
+          android:layout_gravity="center"
+          app:srcCompat="@drawable/arrow" />
+
+      <TextView
+          android:id="@+id/textView9"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:text="Confirm Order"
+          android:textSize="25sp"
+          android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tile_bg"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:layout_marginTop="24dp">
+
+      <!-- Title -->
+      <TextView
+          android:id="@+id/titleTxt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Receipt"
+          android:textSize="20sp"
+          android:textStyle="bold"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          android:gravity="center" />
+
+      <!-- Divider -->
+      <View
+          android:id="@+id/divider1"
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:layout_marginTop="16dp"
+          android:background="@color/black"
+          app:layout_constraintTop_toBottomOf="@id/titleTxt"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent" />
+
+      <!-- Store Name -->
+      <TextView
+          android:id="@+id/storeNameLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Store Name:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+      <TextView
+          android:id="@+id/storeNameTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="Example Grocery Store"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/storeNameLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/storeNameLabel" />
+
+      <!-- Date -->
+      <TextView
+          android:id="@+id/dateLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Date:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/storeNameLabel" />
+
+      <TextView
+          android:id="@+id/dateTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="2024-11-21 14:30"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/dateLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/dateLabel" />
+
+      <!-- Transaction ID -->
+      <TextView
+          android:id="@+id/transactionIdLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Transaction ID:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/dateLabel" />
+
+      <TextView
+          android:id="@+id/transactionIdTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="1234567890"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/transactionIdLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/transactionIdLabel" />
+
+      <!-- User Name -->
+      <TextView
+          android:id="@+id/userNameLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="User Name:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/transactionIdLabel" />
+
+      <TextView
+          android:id="@+id/userNameTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="John Doe"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/userNameLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/userNameLabel" />
+
+      <!-- Email -->
+      <TextView
+          android:id="@+id/userEmailLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Email:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/userNameLabel" />
+
+      <TextView
+          android:id="@+id/userEmailTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="john.doe@example.com"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/userEmailLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/userEmailLabel" />
+
+      <!-- Delivery Address -->
+      <TextView
+          android:id="@+id/deliveryAddressLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:text="Delivery Address:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/userEmailLabel" />
+
+      <TextView
+          android:id="@+id/deliveryAddressTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="123 Main Street, City"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/deliveryAddressLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/deliveryAddressLabel" />
+
+      <!-- Divider -->
+      <View
+          android:id="@+id/divider2"
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:layout_marginTop="16dp"
+          android:background="@color/black"
+          app:layout_constraintTop_toBottomOf="@id/deliveryAddressTxt"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent" />
+
+      <!-- Payment Method -->
+      <TextView
+          android:id="@+id/paymentMethodLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="24dp"
+          android:text="Payment Method:"
+          android:textSize="14sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/divider2" />
+
+      <TextView
+          android:id="@+id/paymentMethodTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="Credit Card"
+          android:textSize="14sp"
+          app:layout_constraintStart_toEndOf="@id/paymentMethodLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/paymentMethodLabel" />
+
+      <!-- Total -->
+      <TextView
+          android:id="@+id/totalLabel"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:text="Total:"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/paymentMethodLabel" />
+
+      <TextView
+          android:id="@+id/totalTxt"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:text="$123.45"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          app:layout_constraintStart_toEndOf="@id/totalLabel"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toTopOf="@id/totalLabel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+  </LinearLayout>
+
+  <androidx.appcompat.widget.AppCompatButton
+      android:id="@+id/PayBillBtn"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      android:layout_marginStart="24dp"
+      android:layout_marginEnd="24dp"
+      android:layout_marginTop="32dp"
+      android:layout_marginBottom="36dp"
+      android:background="@drawable/button_bg"
+      android:text="Get Receipt and Pay Bill"
+      android:textColor="@color/white"
+      android:textSize="17sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

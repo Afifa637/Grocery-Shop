@@ -2,6 +2,7 @@ package com.example.groceryshop01.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.groceryshop01.Activity.DetailActivity;
 import com.example.groceryshop01.Domain.ItemsModel;
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ViewholderItemBinding;
 
 import java.util.ArrayList;
@@ -30,13 +32,14 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        binding = ViewholderItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ViewholderItemBinding binding = ViewholderItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemsModel item = items.get(position);
+        Log.d("ListItemAdapter", "Image URL: " + item.getPicUrl());
 
         holder.binding.titleTxt.setText(item.getTitle());
         holder.binding.feeTxt.setText("Tk " + item.getPrice());
@@ -44,8 +47,10 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
         int drawableResource = holder.itemView.getResources().getIdentifier(
                 items.get(position).getPicUrl(), "drawable", holder.itemView.getContext().getPackageName());
-        Glide.with(context)
-                .load(item.getPicUrl()) // Assuming `getPicUrl` returns a list of image URLs
+                Glide.with(context)
+                .load(item.getPicUrl())
+                        .placeholder(R.drawable.add_img)
+                        .error(R.drawable.add_img)
                 .into(holder.binding.pic);
 
         // Open DetailActivity on item click
@@ -62,7 +67,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ViewholderItemBinding binding;
+        public ViewholderItemBinding binding;
 
         public ViewHolder(ViewholderItemBinding binding) {
             super(binding.getRoot());

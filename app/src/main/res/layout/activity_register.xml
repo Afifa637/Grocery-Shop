@@ -83,6 +83,16 @@
                 android:inputType="textPassword"
                 android:padding="10dp" />
 
+            <EditText
+                android:id="@+id/addressTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/light_gray"
+                android:hint="Address"
+                android:inputType="text"
+                android:padding="10dp" />
+
             <!-- Checkboxes for Registration Type -->
             <LinearLayout
                 android:layout_width="match_parent"

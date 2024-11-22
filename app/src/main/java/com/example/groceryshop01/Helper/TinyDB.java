@@ -1,5 +1,4 @@
 package com.example.groceryshop01.Helper;
-import com.example.groceryshop01.Domain.BestDealsDomain;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-import com.example.groceryshop01.Domain.BestDealsDomain;
+import com.example.groceryshop01.Domain.ItemsModel;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -307,14 +306,14 @@ public class TinyDB {
     }
 
 
-    public ArrayList<BestDealsDomain> getListObject(String key, Class<BestDealsDomain> bestDealsDomainClass){
+    public ArrayList<ItemsModel> getListObject(String key, Class<ItemsModel> bestDealsDomainClass){
         Gson gson = new Gson();
 
         ArrayList<String> objStrings = getListString(key);
-        ArrayList<BestDealsDomain> playerList =  new ArrayList<BestDealsDomain>();
+        ArrayList<ItemsModel> playerList =  new ArrayList<ItemsModel>();
 
         for(String jObjString : objStrings){
-            BestDealsDomain player  = gson.fromJson(jObjString,  BestDealsDomain.class);
+            ItemsModel player  = gson.fromJson(jObjString,  ItemsModel.class);
             playerList.add(player);
         }
         return playerList;
@@ -469,11 +468,11 @@ public class TinyDB {
         putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<BestDealsDomain> playerList){
+    public void putListObject(String key, ArrayList<ItemsModel> playerList){
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<String>();
-        for(BestDealsDomain player: playerList){
+        for(ItemsModel player: playerList){
             objStrings.add(gson.toJson(player));
         }
         putListString(key, objStrings);

@@ -1,10 +1,9 @@
 package com.example.groceryshop01.Domain;
 
-import com.example.groceryshop01.Model.CartItem;
 
 import java.io.Serializable;
 
-public class ItemsModel implements Serializable, CartItem {
+public class ItemsModel implements Serializable {
 
     private String title;
     private String description;
@@ -45,7 +44,6 @@ public class ItemsModel implements Serializable, CartItem {
         this.description = description;
     }
 
-    @Override
     public void setImagePath(String imagePath) {
 
     }
@@ -62,7 +60,6 @@ public class ItemsModel implements Serializable, CartItem {
         return price;
     }
 
-    @Override
     public String getImagePath() {
         return "";
     }

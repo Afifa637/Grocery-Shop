@@ -3,7 +3,8 @@ package com.example.groceryshop01.Helper;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.groceryshop01.Domain.BestDealsDomain;
+import com.example.groceryshop01.Domain.ItemsModel;
+
 import java.util.ArrayList;
 
 public class ManagmentCart {
@@ -15,8 +16,8 @@ public class ManagmentCart {
         this.tinyDB = new TinyDB(context);
     }
 
-    public void insertFood(BestDealsDomain item) {
-        ArrayList<BestDealsDomain> listpop = getListCart();
+    public void insertFood(ItemsModel item) {
+        ArrayList<ItemsModel> listpop = getListCart();
         boolean existAlready = false;
         int n = 0;
 
@@ -32,6 +33,7 @@ public class ManagmentCart {
             int updatedQuantity = listpop.get(n).getNumberInCart() + item.getNumberInCart();
             listpop.get(n).setNumberInCart(updatedQuantity);
         } else {
+            item.setNumberInCart(1);
             listpop.add(item);
         }
 
@@ -39,23 +41,23 @@ public class ManagmentCart {
         Toast.makeText(context, "Added to your Cart", Toast.LENGTH_SHORT).show();
     }
 
-    public ArrayList<BestDealsDomain> getListCart() {
-        return tinyDB.getListObject("CartList", BestDealsDomain.class);
+    public ArrayList<ItemsModel> getListCart() {
+        return tinyDB.getListObject("CartList", ItemsModel.class);
     }
 
     public Double getTotalFee() {
-        ArrayList<BestDealsDomain> listItem = getListCart();
+        ArrayList<ItemsModel> listItem = getListCart();
         double fee = 0;
 
-        for (BestDealsDomain item : listItem) {
+        for (ItemsModel item : listItem) {
             fee += (item.getPrice() * item.getNumberInCart());
         }
 
         return fee;
     }
 
-    public void minusNumberItem(ArrayList<BestDealsDomain> listItem, int position, ChangeNumberItemsListener changeNumberItemsListener) {
-        BestDealsDomain item = listItem.get(position);
+    public void minusNumberItem(ArrayList<ItemsModel> listItem, int position, ChangeNumberItemsListener changeNumberItemsListener) {
+        ItemsModel item = listItem.get(position);
 
         if (item.getNumberInCart() == 1) {
             listItem.remove(position);
@@ -67,7 +69,7 @@ public class ManagmentCart {
         changeNumberItemsListener.change();
     }
 
-    public void plusNumberItem(ArrayList<BestDealsDomain> listItem, int position, ChangeNumberItemsListener changeNumberItemsListener) {
+    public void plusNumberItem(ArrayList<ItemsModel> listItem, int position, ChangeNumberItemsListener changeNumberItemsListener) {
         listItem.get(position).setNumberInCart(listItem.get(position).getNumberInCart() + 1);
         tinyDB.putListObject("CartList", listItem);
         changeNumberItemsListener.change();

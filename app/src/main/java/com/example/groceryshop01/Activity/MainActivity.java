@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -43,7 +42,6 @@ public class MainActivity extends BaseActivity {
 
         statusBarColor();
         initRecyclerView();
-        //bottomNavigation();
         loadUserName();
         setVariable();
     }
@@ -64,9 +62,7 @@ public class MainActivity extends BaseActivity {
                 String fullName = documentSnapshot.getString("FullName");
                 userNameTextView.setText(fullName);
             }
-        }).addOnFailureListener(e -> {
-            Toast.makeText(MainActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
-        });
+        }).addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show());
     }
 
     private void startListActivity(int id, String title) {
@@ -75,13 +71,6 @@ public class MainActivity extends BaseActivity {
         intent.putExtra("title", title);
         startActivity(intent);
     }
-
-    /*
-    private void bottomNavigation() {
-        binding.homeBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, Login.class)));
-        binding.cartBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, CartActivity.class)));
-        binding.profBtn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ProfileActivity.class)));
-    }*/
 
     private void statusBarColor() {
         Window window = MainActivity.this.getWindow();

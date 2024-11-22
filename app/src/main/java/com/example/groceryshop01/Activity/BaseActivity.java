@@ -1,7 +1,7 @@
 package com.example.groceryshop01.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.groceryshop01.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,6 +14,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base); // Base layout containing BottomNavigationView
         setupBottomNavigation();
+    }
+
+    protected void setContentLayout(int layoutResID) {
+        FrameLayout frameLayout = findViewById(R.id.activityContent);
+        getLayoutInflater().inflate(layoutResID, frameLayout, true);
     }
 
     private void setupBottomNavigation() {
