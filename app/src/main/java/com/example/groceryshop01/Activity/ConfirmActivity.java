@@ -6,9 +6,6 @@ import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityConfirmBinding;

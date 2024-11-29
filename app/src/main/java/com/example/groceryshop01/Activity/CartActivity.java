@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.groceryshop01.Adapter.CartAdapter;
+import com.example.groceryshop01.Domain.ItemsModel;
 import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityCartBinding;
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 public class CartActivity extends BaseActivity {
 
@@ -60,24 +63,23 @@ public class CartActivity extends BaseActivity {
         binding.OrderBtn.setOnClickListener(v -> {
             updateMoneyStatus("not received");
             startActivity(new Intent(CartActivity.this, ConfirmActivity.class));
+            initlist();
         });
     }
 
-
-    private void initlist(){
-        // Check if the cart is empty and show/hide elements accordingly
-        if(managmentCart.getListCart().isEmpty()){
+    private void initlist() {
+        ArrayList<ItemsModel> cartItems = managmentCart.getListCart();
+        if (cartItems == null || cartItems.isEmpty()) {
             binding.emptyTxt.setVisibility(View.VISIBLE);
-            binding.backBtn.setVisibility(View.VISIBLE);
             binding.scroll.setVisibility(View.GONE);
         } else {
             binding.emptyTxt.setVisibility(View.GONE);
             binding.scroll.setVisibility(View.VISIBLE);
-        }
 
-        // Initialize RecyclerView with CartAdapter and set layout manager
-        binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(), managmentCart, this::calculatorCart));
+            binding.cartView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            CartAdapter adapter = new CartAdapter(cartItems, managmentCart, this::calculatorCart);
+            binding.cartView.setAdapter(adapter);
+        }
     }
 
     private void calculatorCart(){

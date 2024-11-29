@@ -1,94 +1,99 @@
 package com.example.groceryshop01.Domain;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
-public class ItemsModel implements Serializable {
+public class ItemsModel implements Serializable, Parcelable {
 
-    private String title;
-    private String description;
-    private String picUrl;  // Assuming picUrl is a list of URLs for images
-    private double price;
-    private double score;
-    private int categoryId;
-    private int numberInCart;
+    private String name;          // Item name
+    private String description;   // Item description
+    private String image;         // Image URL
+    private double price;         // Item price
+    private int quantity;         // Quantity available
+    private int categoryId;       // Category ID (if needed for filtering)
+    private double score;         // Number of this item in the cart
+    private String categoryKey;   // Firebase category key
+    private String itemKey;       // Firebase item key
 
-    // Default constructor (required for Firebase)
     public ItemsModel() {}
 
     // Constructor with parameters
-    public ItemsModel(String title, String description, String picUrl, double price, double score, int categoryId, int numberInCart) {
-        this.title = title;
+    public ItemsModel(String name, String description, String image, double price, int quantity, int categoryId, double score, String categoryKey, String itemKey) {
+        this.name = name;
         this.description = description;
-        this.picUrl = picUrl;
+        this.image = image;
         this.price = price;
-        this.score = score;
+        this.quantity = quantity;
         this.categoryId = categoryId;
-        this.numberInCart = numberInCart;
+        this.score = score;
+        this.categoryKey = categoryKey;
+        this.itemKey = itemKey;
     }
 
     // Getters and Setters
-    public String getTitle() {
-        return title;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
+
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+
+    public int getCategoryId() { return categoryId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+
+    public double getScore() { return score; }
+    public void setScore(double score) { this.score = score; }
+
+    public String getCategoryKey() { return categoryKey; }
+    public void setCategoryKey(String categoryKey) { this.categoryKey = categoryKey; }
+
+    public String getItemKey() { return itemKey; }
+    public void setItemKey(String itemKey) { this.itemKey = itemKey; }
+
+
+    protected ItemsModel(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        image = in.readString();
+        price = in.readDouble();
+        quantity = in.readInt();
+        categoryId = in.readInt();
+        score = in.readDouble();
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public static final Parcelable.Creator<ItemsModel> CREATOR = new Parcelable.Creator<ItemsModel>() {
+        @Override
+        public ItemsModel createFromParcel(Parcel in) {
+            return new ItemsModel(in);
+        }
+
+        @Override
+        public ItemsModel[] newArray(int size) {
+            return new ItemsModel[size];
+        }
+    };
+
+    public int describeContents() {
+        return 0;
     }
 
-    public String getDescription() {
-        return description;
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(image);
+        dest.writeDouble(price);
+        dest.writeInt(quantity);
+        dest.writeInt(categoryId);
+        dest.writeDouble(score);
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setImagePath(String imagePath) {
-
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public String getImagePath() {
-        return "";
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-    public int getNumberInCart() {
-        return numberInCart;
-    }
-
-    public void setNumberInCart(int numberInCart) {
-        this.numberInCart = numberInCart;
-    }
-
 }

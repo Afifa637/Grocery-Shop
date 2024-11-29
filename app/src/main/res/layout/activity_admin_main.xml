@@ -39,9 +39,9 @@
         android:id="@+id/cardView"
         android:layout_width="379dp"
         android:layout_height="108dp"
+        android:layout_marginTop="35sp"
         android:outlineSpotShadowColor="@color/dark_cyan"
         app:cardCornerRadius="10dp"
-        android:layout_marginTop="35sp"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,7 +143,7 @@
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toTopOf="@+id/adminProfileBtn"
-        app:layout_constraintEnd_toStartOf="@+id/cardView5"
+        app:layout_constraintEnd_toStartOf="@+id/allItemBtn"
         app:layout_constraintStart_toStartOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -189,8 +189,8 @@
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/adminProfileBtn"
-        app:layout_constraintEnd_toEndOf="@+id/cardView5"
-        app:layout_constraintStart_toStartOf="@+id/cardView5">
+        app:layout_constraintEnd_toEndOf="@+id/allItemBtn"
+        app:layout_constraintStart_toStartOf="@+id/allItemBtn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -230,9 +230,9 @@
         android:id="@+id/adminProfileBtn"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_marginBottom="290dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
-        android:layout_marginBottom="290dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
         app:layout_constraintStart_toStartOf="@+id/cardView2">
@@ -271,15 +271,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView5"
+        android:id="@+id/allItemBtn"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/orderDisBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toTopOf="@+id/cardView2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -318,9 +318,9 @@
         android:id="@+id/logoutBtn"
         android:layout_width="150dp"
         android:layout_height="100dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
-        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="@+id/orderDisBtn"
         app:layout_constraintStart_toStartOf="@+id/adminProfileBtn"
         app:layout_constraintTop_toBottomOf="@+id/adminProfileBtn">

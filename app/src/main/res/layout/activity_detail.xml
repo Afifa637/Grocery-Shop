@@ -19,8 +19,8 @@
         <!-- Middle ConstraintLayout as a background container with a drawable -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout3"
-            android:layout_width="410dp"
-            android:layout_height="282dp"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
             android:background="@drawable/details_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,10 @@
             <!-- Inner ConstraintLayout for Toolbar Elements -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
-                android:layout_width="407dp"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
                 android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +47,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/backbtn" />
+                    app:srcCompat="@drawable/arrow" />
 
                 <!-- Title Text -->
 
@@ -99,12 +101,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout4"
-            android:layout_width="408dp"
-            android:layout_height="wrap_content"
+            android:layout_width="384dp"
+            android:layout_height="31dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="@+id/priceTxt"
+            app:layout_constraintHorizontal_bias="0.458"
+            app:layout_constraintStart_toStartOf="@+id/priceTxt"
             app:layout_constraintTop_toBottomOf="@+id/priceTxt">
 
             <TextView
@@ -122,9 +126,12 @@
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="414dp"
-            android:layout_height="40dp"
+            android:layout_width="385dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,9 +145,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:numStars="5"
-                android:stepSize="0.5"
                 android:progressTint="@color/yellow"
-                android:rating="0" />
+                android:rating="0"
+                android:stepSize="0.5" />
 
             <TextView
                 android:id="@+id/ratingTxt"
@@ -150,21 +157,20 @@
                 android:layout_weight="1"
                 android:text="(5)"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="307dp"
             android:text="Description"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.068"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <TextView
@@ -172,12 +178,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:text="Description text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView8"
+            app:layout_constraintHorizontal_bias="0.571"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <androidx.appcompat.widget.AppCompatButton

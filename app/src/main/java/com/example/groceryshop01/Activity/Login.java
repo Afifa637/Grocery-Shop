@@ -85,7 +85,7 @@ public class Login extends AppCompatActivity {
         return valid;
     }
 
-/*
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -113,5 +113,5 @@ public class Login extends AppCompatActivity {
                 }
             });
         }
-    }*/
+    }
 }

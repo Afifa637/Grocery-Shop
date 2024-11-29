@@ -3,8 +3,9 @@ package com.example.groceryshop01.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
-
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,7 +27,9 @@ public class ProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+
+        FrameLayout activityContent = findViewById(R.id.activityContent);
+        activityContent.addView(binding.getRoot());
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();

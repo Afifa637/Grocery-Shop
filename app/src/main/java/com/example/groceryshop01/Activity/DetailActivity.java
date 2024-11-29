@@ -61,10 +61,10 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setUpUIForItemsModel(ItemsModel item) {
         Glide.with(this)
-                .load(item.getPicUrl())  // Assuming picUrl is a URL or resource string
+                .load(item.getImage())  // Assuming picUrl is a URL or resource string
                 .into(binding.itemPic);
 
-        binding.titleTxt.setText(item.getTitle());
+        binding.titleTxt.setText(item.getName());
         binding.priceTxt.setText("Tk" + item.getPrice());
         binding.descriptionTxt.setText(item.getDescription());
         binding.ratingTxt.setText(String.valueOf(item.getScore()));

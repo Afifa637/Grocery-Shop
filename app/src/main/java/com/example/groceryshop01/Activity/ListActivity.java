@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,14 +17,12 @@ import com.example.groceryshop01.Adapter.ListItemAdapter;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.ViewModel.MainViewModel;
 import com.example.groceryshop01.databinding.ActivityListBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONArray;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ListActivity extends BaseActivity {
@@ -30,24 +30,40 @@ public class ListActivity extends BaseActivity {
     private ActivityListBinding binding;
     private MainViewModel viewModel;
     private Context context;
+    private ArrayList<ItemsModel> itemsList = new ArrayList<>();
+    private ListItemAdapter adapter;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityListBinding.inflate(getLayoutInflater());
         context = ListActivity.this;
+
         FrameLayout activityContent = findViewById(R.id.activityContent);
-        setContentView(binding.getRoot());
+        activityContent.addView(binding.getRoot());
+
+        // Initialize Firebase Database reference
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         // Initializing ViewModel
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        ArrayList<ItemsModel> itemsList = new ArrayList<>();
-        ListItemAdapter adapter = new ListItemAdapter(itemsList, this);
+
         // Set title from Intent extra
         binding.titleTxt.setText(getIntent().getStringExtra("title"));
+
+        // Set up RecyclerView and Adapter
+        adapter = new ListItemAdapter(itemsList, this);
+        binding.view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        binding.view.setAdapter(adapter);
+
+        // Show progress bar while fetching data
+        binding.progressBar2.setVisibility(View.VISIBLE);
 
         // Get the category ID from Intent extra
         int categoryId = getIntent().getIntExtra("id", -1);
         Log.d("ListActivity", "Category ID received: " + categoryId);
+
         // Set category image based on ID
         switch (categoryId) {
             case 1:
@@ -65,38 +81,10 @@ public class ListActivity extends BaseActivity {
             default:
                 binding.pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.grocery_bg));
                 break;
-
         }
-        // Set up RecyclerView layout manager and adapter
-        binding.view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        binding.view.setAdapter(adapter);
-        // Display progress bar while loading data
-        binding.progressBar2.setVisibility(View.VISIBLE);
 
-        // Load items and set adapter
-        viewModel.loadFiltered(context, categoryId).observe(this, items -> {
-            if (items.isEmpty()) {
-                binding.emptyTxt.setVisibility(View.VISIBLE);
-            } else {
-                binding.emptyTxt.setVisibility(View.GONE);
-                itemsList.clear(); // Clear the list to prevent duplicates
-                itemsList.addAll(items); // Add loaded items
-                adapter.notifyDataSetChanged();
-                binding.view.setAdapter(new ListItemAdapter((ArrayList<ItemsModel>) items, context));
-            }
-            binding.progressBar2.setVisibility(View.GONE);
-        });
-
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("newItem")) {
-            ItemsModel newItem = (ItemsModel) intent.getSerializableExtra("newItem");
-            Log.d("ListActivity", "New item received: " + newItem);
-            if (newItem != null && newItem.getCategoryId() == categoryId) {
-                itemsList.add(newItem); // Add the new item to the list
-                adapter.notifyDataSetChanged(); // Notify adapter of data change
-                binding.emptyTxt.setVisibility(View.GONE); // Hide empty text if an item is added
-            }
-        }
+        // Fetch items based on category ID
+        fetchItemsFromFirebase(categoryId);
 
         // Menu button onClick listener to navigate back to MainActivity
         binding.menuBtn.setOnClickListener(view -> {
@@ -105,28 +93,65 @@ public class ListActivity extends BaseActivity {
         });
     }
 
-    private JSONArray readJsonFromFile(Context context, String fileName) {
-        try {
-            File file = new File(context.getFilesDir(), fileName);
-            InputStream is;
-            if (file.exists()) {
-                is = new FileInputStream(file); // Load from internal storage
-            } else {
-                is = context.getAssets().open(fileName); // Load from assets
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            StringBuilder jsonString = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonString.append(line);
-            }
-            reader.close();
-            return new JSONArray(jsonString.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new JSONArray(); // Return an empty array if any error occurs
+    // Fetch items from Firebase based on the category ID
+    private void fetchItemsFromFirebase(int categoryId) {
+        binding.progressBar2.setVisibility(View.VISIBLE);
+
+        // Map the categoryId to the Firebase category name
+        String categoryName = getCategoryNameById(categoryId);
+
+        if (categoryName != null) {
+            databaseReference.child("categories").child(categoryName).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    itemsList.clear();  // Clear the list to avoid duplicates
+
+                    if (!snapshot.exists()) {
+                        Log.d("ListActivity", "No items found for category: " + categoryName);
+                    }
+
+                    for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                        ItemsModel item = itemSnapshot.getValue(ItemsModel.class);
+                        if (item != null) {
+                            Log.d("ListActivity", "Item: " + item.getName());
+                            itemsList.add(item);  // Add the item to the list
+                        }
+                    }
+
+                    if (itemsList.isEmpty()) {
+                        binding.emptyTxt.setVisibility(View.VISIBLE);
+                        Log.d("ListActivity", "No items to display.");
+                    } else {
+                        binding.emptyTxt.setVisibility(View.GONE);
+                        adapter.notifyDataSetChanged();  // Notify adapter to refresh the view
+                    }
+
+                    binding.progressBar2.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    binding.progressBar2.setVisibility(View.GONE);
+                    Toast.makeText(ListActivity.this, "Failed to load items: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
+    // Map categoryId to Firebase category name
+    private String getCategoryNameById(int categoryId) {
+        switch (categoryId) {
+            case 1:
+                return "vegetables";
+            case 2:
+                return "fruits";
+            case 3:
+                return "proteins";
+            case 4:
+                return "dairy";
+            default:
+                return null;
+        }
+    }
 
 }

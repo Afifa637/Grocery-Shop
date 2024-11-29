@@ -21,6 +21,7 @@ public class AdminProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityAdminProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

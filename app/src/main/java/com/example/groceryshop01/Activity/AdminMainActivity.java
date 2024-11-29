@@ -11,6 +11,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         com.example.groceryshop01.databinding.ActivityAdminMainBinding binding = ActivityAdminMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -28,6 +29,11 @@ public class AdminMainActivity extends AppCompatActivity {
 
         binding.logoutBtn.setOnClickListener(v -> {
             Intent intent = new Intent(AdminMainActivity.this, Login.class);
+            startActivity(intent);
+        });
+
+        binding.allItem.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminMainActivity.this, AllItemActivity.class);
             startActivity(intent);
         });
 

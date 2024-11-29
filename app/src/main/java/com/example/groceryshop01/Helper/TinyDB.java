@@ -511,7 +511,6 @@ public class TinyDB {
         return preferences.getAll();
     }
 
-
     /**
      * Register SharedPreferences change listener
      * @param listener listener object of OnSharedPreferenceChangeListener
@@ -531,7 +530,6 @@ public class TinyDB {
 
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
-
 
     /**
      * Check if external storage is writable or not

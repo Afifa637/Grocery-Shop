@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.example.groceryshop01.Domain.ItemsModel;
 import com.example.groceryshop01.Helper.ChangeNumberItemsListener;
 import com.example.groceryshop01.Helper.ManagmentCart;
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ViewholderCartBinding;
 
 import java.util.ArrayList;
@@ -42,18 +43,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         ItemsModel item = itemsModels.get(position);
 
         // Set text for item name, price, and quantity
-        holder.binding.titleTxt.setText(item.getTitle());
+        holder.binding.titleTxt.setText(item.getName());
         holder.binding.feeEachItem.setText(String.format("%s Tk", item.getPrice()));
-        holder.binding.totalEachItem.setText(String.format("%s Tk", Math.round(item.getNumberInCart() * item.getPrice())));
-        holder.binding.numberItemTxt.setText(String.valueOf(item.getNumberInCart()));
+        holder.binding.totalEachItem.setText(String.format("%s Tk", Math.round(item.getQuantity() * item.getPrice())));
+        holder.binding.numberItemTxt.setText(String.valueOf(item.getQuantity()));
 
         // Load image with Glide
-        int drawableResource = context.getResources().getIdentifier(item.getImagePath(), "drawable", context.getPackageName());
-        Glide.with(context)
-                .load(drawableResource)
-                .transform(new GranularRoundedCorners(30, 30, 0, 0))
-                .into(holder.binding.menuBtn);
-
+        if (item.getImage() != null && !item.getImage().isEmpty()) {
+            int drawableResource = context.getResources().getIdentifier(item.getImage(), "drawable", context.getPackageName());
+            Glide.with(context)
+                    .load(drawableResource)
+                    .transform(new GranularRoundedCorners(30, 30, 0, 0))
+                    .into(holder.binding.menuBtn);
+        } else {
+            holder.binding.menuBtn.setImageResource(R.drawable.add_img); // Default placeholder
+        }
         // Set up plus and minus button listeners
         holder.binding.plusCartBtn.setOnClickListener(v -> managmentCart.plusNumberItem(itemsModels, position, () -> {
             notifyItemChanged(position);
@@ -61,7 +65,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         }));
 
         holder.binding.minusCartBtn.setOnClickListener(v -> managmentCart.minusNumberItem(itemsModels, position, () -> {
-            notifyItemChanged(position);
+            if (itemsModels.size() > position) {
+                notifyItemRemoved(position); // Notify item removed if it was deleted
+                notifyItemRangeChanged(position, itemsModels.size()); // Update subsequent positions
+            }
             changeNumberItemsListener.change();
         }));
     }
