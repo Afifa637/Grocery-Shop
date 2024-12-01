@@ -3,8 +3,12 @@ package com.example.groceryshop01.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,6 +68,7 @@ public class ProfileActivity extends BaseActivity {
             Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
             startActivity(intent);
         });
+        statusBarColor();
     }
 
     /**
@@ -77,6 +82,11 @@ public class ProfileActivity extends BaseActivity {
         binding.userAddr.setEnabled(editable);
         binding.userPass.setEnabled(editable);
         binding.saveinfoBtn.setVisibility(editable ? View.VISIBLE : View.GONE);
+    }
+
+    private void statusBarColor() {
+        Window window = ProfileActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(ProfileActivity.this, R.color.dark_green));
     }
 
     private void loadUserData() {

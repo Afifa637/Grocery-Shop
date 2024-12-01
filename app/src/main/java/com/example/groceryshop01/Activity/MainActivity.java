@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -74,7 +75,7 @@ public class MainActivity extends BaseActivity {
 
     private void statusBarColor() {
         Window window = MainActivity.this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.medium_sea_green));
+        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.dark_green));
     }
 
     private void initRecyclerView() {

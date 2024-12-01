@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.groceryshop01.Adapter.ListItemAdapter;
@@ -49,7 +51,13 @@ public class AllItemActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("categories");
 
         setupCategoryClickListeners();
+        statusBarColor();
         setupButtonNavigation();
+    }
+
+    private void statusBarColor() {
+        Window window = AllItemActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(AllItemActivity.this, R.color.dark_green));
     }
 
     private void setupCategoryClickListeners() {

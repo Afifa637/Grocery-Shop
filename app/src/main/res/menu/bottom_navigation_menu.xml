@@ -3,21 +3,26 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home"
-        android:title="Home" />
+        android:title="Home"
+        android:iconTint="@color/white"/>
     <item
         android:id="@+id/nav_favourites"
         android:icon="@drawable/favourite"
-        android:title="Favourites" />
+        android:title="Favourites"
+        android:iconTint="@color/white"/>
     <item
         android:id="@+id/nav_cart"
         android:icon="@drawable/cart"
-        android:title="Cart" />
+        android:title="Cart"
+        android:iconTint="@color/white"/>
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/settings"
-        android:title="Settings" />
+        android:title="Settings"
+        android:iconTint="@color/white"/>
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/profile"
-        android:title="Profile" />
+        android:title="Profile"
+        android:iconTint="@color/white"/>
 </menu>

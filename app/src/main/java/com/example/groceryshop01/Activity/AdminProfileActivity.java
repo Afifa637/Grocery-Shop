@@ -2,10 +2,13 @@ package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityAdminProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,8 +32,14 @@ public class AdminProfileActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        loadAdminDetails(); // Load admin details on activity creation
+        loadAdminDetails();
+        statusBarColor();
         buttonNavigation();
+    }
+
+    private void statusBarColor() {
+        Window window = AdminProfileActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(AdminProfileActivity.this, R.color.dark_green));
     }
 
     private void buttonNavigation() {

@@ -1,11 +1,18 @@
 package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+
+import com.example.groceryshop01.Domain.ItemsModel;
+import com.example.groceryshop01.Domain.PendingOrderModel;
 import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityConfirmBinding;
@@ -14,8 +21,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class ConfirmActivity extends BaseActivity {
@@ -32,9 +43,6 @@ public class ConfirmActivity extends BaseActivity {
         binding = ActivityConfirmBinding.inflate(getLayoutInflater());
         FrameLayout activityContent = findViewById(R.id.activityContent);
         activityContent.addView(binding.getRoot());
-
-
-        // Initialize Firebase and UI elements
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         managmentCart = new ManagmentCart(this); // Adjust based on your implementation.
@@ -50,7 +58,13 @@ public class ConfirmActivity extends BaseActivity {
         // Populate receipt details
         loadUserData();
         loadCartDetails();
+        statusBarColor();
         buttonNavigation();
+    }
+
+    private void statusBarColor() {
+        Window window = ConfirmActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(ConfirmActivity.this, R.color.dark_green));
     }
 
     private void loadUserData() {
@@ -97,21 +111,30 @@ public class ConfirmActivity extends BaseActivity {
 
     private void buttonNavigation() {
         binding.backBtn.setOnClickListener(v -> startActivity(new Intent(ConfirmActivity.this, CartActivity.class)));
-        binding.PayBillBtn.setOnClickListener(v -> {
-                updateMoneyStatus("received");
-            Toast.makeText(this, "Bill is Received!", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(ConfirmActivity.this, CartActivity.class));
-        });
-    }
+        binding.OrderBtn.setOnClickListener(v -> {
+            String customerName = userNameTxt.getText().toString();
+            List<PendingOrderModel.Item> cartItems = new ArrayList<>();
 
-    private void updateMoneyStatus(String status) {
-        firestore.collection("Users").whereEqualTo("isCustomer", "1") .get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                document.getReference().update("moneyStatus", status)
-                        .addOnSuccessListener(aVoid -> Log.d("ConfirmActivity", "Status updated"))
-                        .addOnFailureListener(e -> Log.e("ConfirmActivity", "Error updating status", e));
+            for (ItemsModel item : managmentCart.getListCart()) {
+                cartItems.add(new PendingOrderModel.Item(item.getName(), item.getQuantity()));
             }
-        }).addOnFailureListener(e -> Toast.makeText(this, "Error fetching users for status update.", Toast.LENGTH_SHORT).show());
+
+            if (cartItems.isEmpty()) {
+                Toast.makeText(this, "Cart is empty. Cannot place order.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            PendingOrderModel pendingOrder = new PendingOrderModel(customerName, cartItems);
+
+            firestore.collection("Orders")
+                    .add(pendingOrder)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to place order: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        });
     }
 
 }

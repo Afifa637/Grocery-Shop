@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
@@ -17,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -193,6 +195,12 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
         binding.backBtn.setOnClickListener(v -> finish());
+        statusBarColor();
+    }
+
+    private void statusBarColor() {
+        Window window = AddItemActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(AddItemActivity.this, R.color.dark_green));
     }
 
     private void uploadData(String categoryKey, String title, String description, double price, String imageUrl) {

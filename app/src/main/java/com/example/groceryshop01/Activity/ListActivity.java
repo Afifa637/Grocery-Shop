@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -91,6 +92,12 @@ public class ListActivity extends BaseActivity {
             Intent intentToMain = new Intent(ListActivity.this, MainActivity.class);
             startActivity(intentToMain);
         });
+        statusBarColor();
+    }
+
+    private void statusBarColor() {
+        Window window = ListActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(ListActivity.this, R.color.dark_green));
     }
 
     // Fetch items from Firebase based on the category ID

@@ -55,13 +55,12 @@ public class CartActivity extends BaseActivity {
 
     private void statusBarColor() {
         Window window = CartActivity.this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(CartActivity.this, R.color.medium_sea_green));
+        window.setStatusBarColor(ContextCompat.getColor(CartActivity.this, R.color.dark_green));
     }
 
     private void buttonNavigation() {
         binding.backBtn.setOnClickListener(v -> startActivity(new Intent(CartActivity.this, MainActivity.class)));
-        binding.OrderBtn.setOnClickListener(v -> {
-            updateMoneyStatus("not received");
+        binding.OrderNowBtn.setOnClickListener(v -> {
             startActivity(new Intent(CartActivity.this, ConfirmActivity.class));
             initlist();
         });

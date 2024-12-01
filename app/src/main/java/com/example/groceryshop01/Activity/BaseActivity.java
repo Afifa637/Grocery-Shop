@@ -46,6 +46,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
                 return true;
             }
+            else if (itemId == R.id.nav_favourites) {
+                    startActivity(new Intent(this, OrderReceivedActivity.class));
+                    finish();
+                return true;
+            }
             return false;
         });
     }

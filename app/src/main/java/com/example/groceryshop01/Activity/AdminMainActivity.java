@@ -2,9 +2,12 @@ package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityAdminMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {
@@ -37,9 +40,20 @@ public class AdminMainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.adminProfileBtn.setOnClickListener(v -> {
+        binding.pendingOrder.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminMainActivity.this, PendingOrderActivity.class);
+            startActivity(intent);
+        });
+
+        binding.profileBtn.setOnClickListener(v -> {
             Intent intent = new Intent(AdminMainActivity.this, AdminProfileActivity.class);
             startActivity(intent);
         });
+        statusBarColor();
+    }
+
+    private void statusBarColor() {
+        Window window = AdminMainActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(AdminMainActivity.this, R.color.dark_green));
     }
 }

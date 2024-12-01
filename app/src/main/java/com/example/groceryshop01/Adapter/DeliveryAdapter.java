@@ -1,14 +1,13 @@
 package com.example.groceryshop01.Adapter;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.DeliveryItemBinding;
 
 import java.util.ArrayList;
@@ -20,30 +19,29 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Delive
     private final ArrayList<String> moneyStatus;
 
     public DeliveryAdapter(ArrayList<String> customerNames, ArrayList<String> moneyStatus) {
-        this.customerNames = customerNames;
-        this.moneyStatus = moneyStatus;
+        this.customerNames = customerNames != null ? customerNames : new ArrayList<>();
+        this.moneyStatus = moneyStatus != null ? moneyStatus : new ArrayList<>();
     }
 
     @NonNull
     @Override
     public DeliveryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        DeliveryItemBinding binding = DeliveryItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        DeliveryItemBinding binding = DeliveryItemBinding.inflate(inflater, parent, false);
         return new DeliveryViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DeliveryViewHolder holder, int position) {
-        // Use the bind method for better encapsulation
         holder.bind(position);
     }
 
     @Override
     public int getItemCount() {
-        return customerNames.size(); // Ensure the correct list size
+        return customerNames.size();
     }
 
     public class DeliveryViewHolder extends RecyclerView.ViewHolder {
-
         private final DeliveryItemBinding binding;
 
         public DeliveryViewHolder(DeliveryItemBinding binding) {
@@ -52,16 +50,15 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Delive
         }
 
         public void bind(int position) {
-            // Map for status colors
             HashMap<String, Integer> colorMap = new HashMap<>();
-            colorMap.put("received", Color.GREEN);
-            colorMap.put("not received", Color.RED);
+            colorMap.put("received", ContextCompat.getColor(binding.getRoot().getContext(), R.color.dark_green));
+            colorMap.put("not received", ContextCompat.getColor(binding.getRoot().getContext(), R.color.dark_red));
 
-            // Set data and styles
             binding.customerName.setText(customerNames.get(position));
             binding.statusTxt.setText(moneyStatus.get(position));
 
-            int color = colorMap.getOrDefault(moneyStatus.get(position), Color.BLACK);
+            int color = colorMap.getOrDefault(moneyStatus.get(position),
+                    ContextCompat.getColor(binding.getRoot().getContext(), R.color.black));
             binding.statusTxt.setTextColor(color);
             binding.statusCol.setBackgroundTintList(ColorStateList.valueOf(color));
         }

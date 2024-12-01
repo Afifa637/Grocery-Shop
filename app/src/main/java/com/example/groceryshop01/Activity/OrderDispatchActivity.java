@@ -2,13 +2,14 @@ package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.groceryshop01.Adapter.DeliveryAdapter;
+import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityOrderDispatchBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,32 +36,43 @@ public class OrderDispatchActivity extends AppCompatActivity {
         binding.deliveryRecyclerView.setAdapter(adapter);
         binding.deliveryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        for (int i = 0; i < customerNames.size(); i++) {
-            Log.d("OrderDispatchActivity", "Customer: " + customerNames.get(i) + ", Status: " + moneyStatus.get(i));
-        }
         if (customerNames.isEmpty() && moneyStatus.isEmpty()) {
-            fetchUsers(); // This prevents calling it multiple times if the lists are already populated
+            fetchUsers();
         }
         buttonNavigation();
+        statusBarColor();
     }
 
     private void fetchUsers() {
-        firestore.collection("Users").whereEqualTo("isCustomer", "1") .get().addOnSuccessListener(queryDocumentSnapshots -> {
-            customerNames.clear();
-            moneyStatus.clear();
+        firestore.collection("Users").whereEqualTo("isCustomer", "1").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    customerNames.clear();
+                    moneyStatus.clear();
 
-            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                String name = document.getString("FullName");
-                String status = document.getString("moneyStatus"); // Ensure this field exists.
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        String name = document.getString("FullName");
+                        String status = document.getString("moneyStatus");
 
-                customerNames.add(name);
-                moneyStatus.add(status != null ? status : "not received");
-            }
-            adapter.notifyDataSetChanged();
-        }).addOnFailureListener(e -> Toast.makeText(OrderDispatchActivity.this, "Failed to fetch users.", Toast.LENGTH_SHORT).show());
+                        if (name != null && !name.isEmpty()) {
+                            customerNames.add(name);
+                            moneyStatus.add(status != null ? status : "not received");
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(OrderDispatchActivity.this, "Failed to fetch users.", Toast.LENGTH_SHORT).show()
+                );
+    }
+
+    private void statusBarColor() {
+        Window window = OrderDispatchActivity.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(OrderDispatchActivity.this, R.color.dark_green));
     }
 
     private void buttonNavigation() {
-        binding.backBtn.setOnClickListener(v -> startActivity(new Intent(OrderDispatchActivity.this, AdminMainActivity.class)));
+        binding.backBtn.setOnClickListener(v ->
+                startActivity(new Intent(OrderDispatchActivity.this, AdminMainActivity.class))
+        );
     }
 }

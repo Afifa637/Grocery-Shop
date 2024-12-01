@@ -5,47 +5,50 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lighter_goldenrod_yellow"
     tools:context=".Activity.AdminMainActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="51dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.111"
-        app:srcCompat="@drawable/groceryapp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="128dp"
-        android:text="Admin Panel"
-        android:textColor="@color/dark_cyan"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="416dp"
+        android:layout_height="58dp"
+        android:background="@color/medium_sea_green"
+        android:orientation="horizontal"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.977"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.368" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="33dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/groceryapp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:gravity="center"
+            android:text="Admin Panel"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="379dp"
         android:layout_height="108dp"
-        android:layout_marginTop="35sp"
+        android:layout_marginTop="32dp"
         android:outlineSpotShadowColor="@color/dark_cyan"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -139,13 +142,13 @@
         android:id="@+id/cardView2"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:layout_marginTop="175dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/adminProfileBtn"
+        app:layout_constraintBottom_toTopOf="@+id/prndingBtn"
         app:layout_constraintEnd_toStartOf="@+id/allItemBtn"
         app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/addMenu"
@@ -188,7 +191,7 @@
         android:layout_height="100dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/adminProfileBtn"
+        app:layout_constraintBottom_toBottomOf="@+id/prndingBtn"
         app:layout_constraintEnd_toEndOf="@+id/allItemBtn"
         app:layout_constraintStart_toStartOf="@+id/allItemBtn">
 
@@ -227,44 +230,45 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/adminProfileBtn"
+        android:id="@+id/prndingBtn"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:layout_marginBottom="290dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView2"
-        app:layout_constraintStart_toStartOf="@+id/cardView2">
+        app:layout_constraintStart_toStartOf="@+id/cardView2"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/profileBtn"
+                android:id="@+id/pendingOrder"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/profile_g" />
+                app:srcCompat="@drawable/orderpend" />
 
             <TextView
-                android:id="@+id/profileTxt"
+                android:id="@+id/pendingOrderTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Profile"
+                android:text="Pending Orders"
                 android:textColor="@color/dark_cyan"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/profileBtn"
+                app:layout_constraintEnd_toEndOf="@+id/pendingOrder"
                 app:layout_constraintHorizontal_bias="0.66"
-                app:layout_constraintStart_toStartOf="@+id/profileBtn"
+                app:layout_constraintStart_toStartOf="@+id/pendingOrder"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.506" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -321,9 +325,10 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/edittext_bg"
         app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profile"
         app:layout_constraintEnd_toEndOf="@+id/orderDisBtn"
-        app:layout_constraintStart_toStartOf="@+id/adminProfileBtn"
-        app:layout_constraintTop_toBottomOf="@+id/adminProfileBtn">
+        app:layout_constraintStart_toStartOf="@+id/orderDisBtn"
+        app:layout_constraintTop_toBottomOf="@+id/orderDisBtn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -357,5 +362,50 @@
                 app:layout_constraintVertical_bias="0.506" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/adminprofileBtn"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/edittext_bg"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/prndingBtn"
+        app:layout_constraintStart_toStartOf="@+id/prndingBtn"
+        app:layout_constraintTop_toBottomOf="@+id/prndingBtn">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/profileBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/profile_g" />
+
+            <TextView
+            android:id="@+id/profileTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Profile"
+            android:textColor="@color/dark_cyan"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/profileBtn"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="@+id/profileBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.506" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

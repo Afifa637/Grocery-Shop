@@ -1,6 +1,7 @@
 package com.example.groceryshop01.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -37,9 +38,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private void statusBarColor() {
         Window window = DetailActivity.this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(DetailActivity.this, R.color.whit2));
+        window.setStatusBarColor(ContextCompat.getColor(DetailActivity.this, R.color.dark_green));
     }
-
 
     private void getBundles(){
         itemsModel = (ItemsModel) getIntent().getSerializableExtra("itemsModel");
@@ -56,7 +56,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        binding.backBtn.setOnClickListener(v -> finish());  // Back button action
+        binding.backBtn.setOnClickListener(v -> finish());
+        binding.cartView.setOnClickListener(v -> startActivity(new Intent(DetailActivity.this, CartActivity.class)));
     }
 
     private void setUpUIForItemsModel(ItemsModel item) {

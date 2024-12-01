@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_goldenrod_yellow"
+    android:background="@color/lighter_goldenrod_yellow"
     tools:context=".Activity.Register">
 
     <!-- Background Image (Top Half of Screen) -->

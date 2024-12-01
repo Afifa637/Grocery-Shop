@@ -6,62 +6,76 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Activity.ConfirmActivity">
 
   <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:id="@+id/linearLayout7"
+      android:layout_width="416dp"
+      android:layout_height="58dp"
+      android:background="@color/medium_sea_green"
+      android:orientation="horizontal"
+      android:elevation="8dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/arrow"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:gravity="center"
+        android:text="Confirm Order"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="384dp"
+      android:layout_height="782dp"
       android:orientation="vertical"
-      android:layout_marginStart="24dp"
-      android:layout_marginEnd="24dp"
-      android:layout_marginTop="32dp">
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-      <ImageView
-          android:id="@+id/backBtn"
-          android:layout_width="24dp"
-          android:layout_height="24dp"
-          android:visibility="visible"
-          android:layout_gravity="center"
-          app:srcCompat="@drawable/arrow" />
-
-      <TextView
-          android:id="@+id/textView9"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:gravity="center"
-          android:text="Confirm Order"
-          android:textSize="25sp"
-          android:textStyle="bold" />
-    </LinearLayout>
+        android:orientation="horizontal"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@drawable/tile_bg"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
         android:paddingStart="24dp"
+        android:paddingTop="32dp"
         android:paddingEnd="24dp"
-        android:layout_marginTop="24dp">
+        android:paddingBottom="32dp">
 
       <!-- Title -->
       <TextView
           android:id="@+id/titleTxt"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:gravity="center"
           android:text="Receipt"
           android:textSize="20sp"
           android:textStyle="bold"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          android:gravity="center" />
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
       <!-- Divider -->
       <View
@@ -70,9 +84,9 @@
           android:layout_height="1dp"
           android:layout_marginTop="16dp"
           android:background="@color/black"
-          app:layout_constraintTop_toBottomOf="@id/titleTxt"
+          app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintEnd_toEndOf="parent" />
+          app:layout_constraintTop_toBottomOf="@id/titleTxt" />
 
       <!-- Store Name -->
       <TextView
@@ -92,8 +106,8 @@
           android:layout_marginStart="8dp"
           android:text="Example Grocery Store"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/storeNameLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/storeNameLabel"
           app:layout_constraintTop_toTopOf="@id/storeNameLabel" />
 
       <!-- Date -->
@@ -114,8 +128,8 @@
           android:layout_marginStart="8dp"
           android:text="2024-11-21 14:30"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/dateLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/dateLabel"
           app:layout_constraintTop_toTopOf="@id/dateLabel" />
 
       <!-- Transaction ID -->
@@ -136,8 +150,8 @@
           android:layout_marginStart="8dp"
           android:text="1234567890"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/transactionIdLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/transactionIdLabel"
           app:layout_constraintTop_toTopOf="@id/transactionIdLabel" />
 
       <!-- User Name -->
@@ -158,8 +172,8 @@
           android:layout_marginStart="8dp"
           android:text="John Doe"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/userNameLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/userNameLabel"
           app:layout_constraintTop_toTopOf="@id/userNameLabel" />
 
       <!-- Email -->
@@ -180,8 +194,8 @@
           android:layout_marginStart="8dp"
           android:text="john.doe@example.com"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/userEmailLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/userEmailLabel"
           app:layout_constraintTop_toTopOf="@id/userEmailLabel" />
 
       <!-- Delivery Address -->
@@ -202,8 +216,8 @@
           android:layout_marginStart="8dp"
           android:text="123 Main Street, City"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/deliveryAddressLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/deliveryAddressLabel"
           app:layout_constraintTop_toTopOf="@id/deliveryAddressLabel" />
 
       <!-- Divider -->
@@ -213,9 +227,9 @@
           android:layout_height="1dp"
           android:layout_marginTop="16dp"
           android:background="@color/black"
-          app:layout_constraintTop_toBottomOf="@id/deliveryAddressTxt"
+          app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintEnd_toEndOf="parent" />
+          app:layout_constraintTop_toBottomOf="@id/deliveryAddressTxt" />
 
       <!-- Payment Method -->
       <TextView
@@ -235,8 +249,8 @@
           android:layout_marginStart="8dp"
           android:text="Credit Card"
           android:textSize="14sp"
-          app:layout_constraintStart_toEndOf="@id/paymentMethodLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/paymentMethodLabel"
           app:layout_constraintTop_toTopOf="@id/paymentMethodLabel" />
 
       <!-- Total -->
@@ -259,15 +273,15 @@
           android:text="$123.45"
           android:textSize="18sp"
           android:textStyle="bold"
-          app:layout_constraintStart_toEndOf="@id/totalLabel"
           app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/totalLabel"
           app:layout_constraintTop_toTopOf="@id/totalLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
   </LinearLayout>
 
   <androidx.appcompat.widget.AppCompatButton
-      android:id="@+id/PayBillBtn"
+      android:id="@+id/OrderBtn"
       android:layout_width="match_parent"
       android:layout_height="48dp"
       android:layout_marginStart="24dp"
@@ -275,7 +289,7 @@
       android:layout_marginTop="32dp"
       android:layout_marginBottom="36dp"
       android:background="@drawable/button_bg"
-      android:text="Get Receipt and Pay Bill"
+      android:text="Confirm Order"
       android:textColor="@color/white"
       android:textSize="17sp"
       android:textStyle="bold"

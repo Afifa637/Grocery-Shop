@@ -2,12 +2,14 @@ package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.groceryshop01.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -113,6 +115,12 @@ public class Register extends AppCompatActivity {
         });
 
         gotoLogin.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), Login.class)));
+        statusBarColor();
+    }
+
+    private void statusBarColor() {
+        Window window = Register.this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(Register.this, R.color.dark_green));
     }
 
     public void checkField(EditText textField) {
