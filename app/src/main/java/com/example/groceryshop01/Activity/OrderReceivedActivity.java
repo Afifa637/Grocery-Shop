@@ -1,24 +1,22 @@
 package com.example.groceryshop01.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.R;
-import com.example.groceryshop01.databinding.ActivityConfirmBinding;
 import com.example.groceryshop01.databinding.ActivityOrderReceivedBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-public class OrderReceivedActivity extends AppCompatActivity {
+public class OrderReceivedActivity extends BaseActivity {
 
     private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
+    private FirebaseDatabase firebaseDatabase;
     private ManagmentCart managmentCart;
     private ActivityOrderReceivedBinding binding;
 
@@ -30,7 +28,7 @@ public class OrderReceivedActivity extends AppCompatActivity {
         activityContent.addView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         managmentCart = new ManagmentCart(this);
 
         buttonNavigation();
@@ -40,26 +38,24 @@ public class OrderReceivedActivity extends AppCompatActivity {
         binding.payBillBtn.setOnClickListener(v -> {
             updateMoneyStatus("received");
             Toast.makeText(this, "Payment has been received!", Toast.LENGTH_SHORT).show();
-            // Redirect to the Order Dispatch Activity after updating status
-            startActivity(new Intent(OrderReceivedActivity.this, OrderDispatchActivity.class));
         });
     }
 
-    // Update the money status of the currently authenticated user
     private void updateMoneyStatus(String status) {
-        String userId = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
-        if (userId != null) {
-            firestore.collection("Users").document(userId)
-                    .update("moneyStatus", status)
+        String orderId = getIntent().getStringExtra("orderId");
+        if (orderId != null) {
+            DatabaseReference orderRef = firebaseDatabase.getReference("Orders").child(orderId);
+
+            orderRef.child("moneyStatus").setValue(status)
                     .addOnSuccessListener(aVoid -> {
-                        Log.d("OrderReceivedActivity", "Status updated");
+                        Log.d("OrderReceivedActivity", "Money status updated");
                     })
                     .addOnFailureListener(e -> {
-                        Log.e("OrderReceivedActivity", "Error updating status", e);
+                        Log.e("OrderReceivedActivity", "Error updating money status", e);
                         Toast.makeText(this, "Error updating payment status.", Toast.LENGTH_SHORT).show();
                     });
         } else {
-            Log.e("OrderReceivedActivity", "User ID is null");
+            Log.e("OrderReceivedActivity", "Order ID is null");
             Toast.makeText(this, "Error: User is not authenticated.", Toast.LENGTH_SHORT).show();
         }
     }

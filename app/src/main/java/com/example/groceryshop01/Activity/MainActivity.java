@@ -10,12 +10,12 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.groceryshop01.Adapter.BestDealsAdapter;
-import com.example.groceryshop01.Domain.BestDealsDomain;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityMainBinding;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -42,7 +42,6 @@ public class MainActivity extends BaseActivity {
         userNameTextView = findViewById(R.id.userName);
 
         statusBarColor();
-        initRecyclerView();
         loadUserName();
         setVariable();
     }
@@ -78,16 +77,5 @@ public class MainActivity extends BaseActivity {
         window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.dark_green));
     }
 
-    private void initRecyclerView() {
-        ArrayList<BestDealsDomain> items = new ArrayList<>();
-        items.add(new BestDealsDomain("Orange", "orange", 400, 3, "Fresh and juicy oranges packed with vitamin C.", 1));
-        items.add(new BestDealsDomain("Apple", "apple", 500, 5, "Crisp and sweet apples, perfect for a healthy snack.",1));
-        items.add(new BestDealsDomain("Berry", "berry", 350, 4, "A mix of berries rich in antioxidants and flavor.",1));
-        items.add(new BestDealsDomain("Strawberry", "strawberry", 450, 2, "Delicious strawberries that are sweet and juicy.",1));
-        items.add(new BestDealsDomain("Watermelon", "watermelon", 600, 7, "Refreshing watermelon, perfect for hot days.",1));
-
-        binding.bestdealsview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        binding.bestdealsview.setAdapter(new BestDealsAdapter(items));
-    }
 
 }

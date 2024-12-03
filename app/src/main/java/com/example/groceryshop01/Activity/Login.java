@@ -65,22 +65,22 @@ public class Login extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(Login.this, R.color.dark_green));
     }
 
-        private void checkUserAccessLevel(String uid){
-            DocumentReference df = fStore.collection("Users").document(uid);
-            df.get().addOnSuccessListener(documentSnapshot -> {
-                Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
-                //identify the user access level
-                if (documentSnapshot.getString("isAdmin") != null) {
-                    //user is admin
-                    startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
-                    finish();
-                }
-                if (documentSnapshot.getString("isCustomer") != null) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
-                }
-            });
-        }
+    private void checkUserAccessLevel(String uid){
+        DocumentReference df = fStore.collection("Users").document(uid);
+        df.get().addOnSuccessListener(documentSnapshot -> {
+            Log.d("TAG", "onSuccess: " + documentSnapshot.getData());
+            //identify the user access level
+            if (documentSnapshot.getString("isAdmin") != null) {
+                //user is admin
+                startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
+                finish();
+            }
+            if (documentSnapshot.getString("isCustomer") != null) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
+        });
+    }
 
     public boolean checkField(EditText textField){
         if(textField.getText().toString().isEmpty()){

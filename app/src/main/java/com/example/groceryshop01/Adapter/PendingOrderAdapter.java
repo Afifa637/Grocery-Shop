@@ -74,4 +74,3 @@ public class PendingOrderAdapter extends RecyclerView.Adapter<PendingOrderAdapte
         }
     }
 }
-

@@ -1,7 +1,6 @@
 package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -9,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.groceryshop01.Domain.ItemsModel;
@@ -17,25 +17,29 @@ import com.example.groceryshop01.Helper.ManagmentCart;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityConfirmBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 
 public class ConfirmActivity extends BaseActivity {
 
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    private FirebaseDatabase firebaseDatabase;
     private TextView userNameTxt, userEmailTxt, deliveryAddressTxt, dateTxt, paymentMethodTxt, totalTxt, storeNameTxt;
     private ManagmentCart managmentCart;
-    private ActivityConfirmBinding binding;// Assume you already have this class for cart management.
+    private ActivityConfirmBinding binding;
+    private double total; // Declare total at the class level
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,8 @@ public class ConfirmActivity extends BaseActivity {
         activityContent.addView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        managmentCart = new ManagmentCart(this); // Adjust based on your implementation.
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        managmentCart = new ManagmentCart(this);
 
         userNameTxt = findViewById(R.id.userNameTxt);
         userEmailTxt = findViewById(R.id.userEmailTxt);
@@ -55,7 +60,6 @@ public class ConfirmActivity extends BaseActivity {
         totalTxt = findViewById(R.id.totalTxt);
         storeNameTxt = findViewById(R.id.storeNameTxt);
 
-        // Populate receipt details
         loadUserData();
         loadCartDetails();
         statusBarColor();
@@ -72,14 +76,12 @@ public class ConfirmActivity extends BaseActivity {
         firestore.collection("Users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        // Update UI with user details
                         userNameTxt.setText(documentSnapshot.getString("FullName"));
                         userEmailTxt.setText(documentSnapshot.getString("UserEmail"));
-                        deliveryAddressTxt.setText(documentSnapshot.getString("UserAddress")); // Ensure this field exists in Firestore.
+                        deliveryAddressTxt.setText(documentSnapshot.getString("UserAddress"));
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // Handle failure
                     userNameTxt.setText("N/A");
                     userEmailTxt.setText("N/A");
                     deliveryAddressTxt.setText("N/A");
@@ -87,34 +89,35 @@ public class ConfirmActivity extends BaseActivity {
     }
 
     private void loadCartDetails() {
-        // Update date
         String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date());
         dateTxt.setText(currentDate);
 
-        // Payment method (hardcoded for now, replace with dynamic data if needed)
-
         String selectedMethod = getIntent().getStringExtra("selectedPaymentMethod");
         if (selectedMethod != null) {
-            paymentMethodTxt.setText(selectedMethod); // Set the method in the TextView
+            paymentMethodTxt.setText(selectedMethod);
         }
 
-        // Calculate and update total
         double percentTax = 0.02; // 2% tax
         double delivery = 10; // Flat delivery fee
         double itemTotal = Math.round(managmentCart.getTotalFee() * 100) / 100.0;
         double tax = Math.round(itemTotal * percentTax * 100) / 100.0;
-        double total = Math.round((itemTotal + tax + delivery) * 100) / 100.0;
+        total = Math.round((itemTotal + tax + delivery) * 100) / 100.0; // Assign total to class variable
 
         totalTxt.setText("Tk " + total);
-        storeNameTxt.setText("GreenGrocer"); // Replace with dynamic store name if required.
+        storeNameTxt.setText("GreenGrocer");
+
+        // Creating a PendingOrderModel instance to set the total
+        PendingOrderModel pendingOrder = new PendingOrderModel();
+        pendingOrder.setTotal(total);
     }
 
     private void buttonNavigation() {
         binding.backBtn.setOnClickListener(v -> startActivity(new Intent(ConfirmActivity.this, CartActivity.class)));
         binding.OrderBtn.setOnClickListener(v -> {
             String customerName = userNameTxt.getText().toString();
-            List<PendingOrderModel.Item> cartItems = new ArrayList<>();
+            String customerId = auth.getCurrentUser().getUid();
 
+            List<PendingOrderModel.Item> cartItems = new ArrayList<>();
             for (ItemsModel item : managmentCart.getListCart()) {
                 cartItems.add(new PendingOrderModel.Item(item.getName(), item.getQuantity()));
             }
@@ -124,11 +127,15 @@ public class ConfirmActivity extends BaseActivity {
                 return;
             }
 
-            PendingOrderModel pendingOrder = new PendingOrderModel(customerName, cartItems);
+            String orderId = firebaseDatabase.getReference("Orders").push().getKey(); // Generate a new order ID
+            PendingOrderModel pendingOrder = new PendingOrderModel(orderId, customerName, cartItems, "pending", "not received", total);
+            pendingOrder.setTotal(total);
 
-            firestore.collection("Orders")
-                    .add(pendingOrder)
-                    .addOnSuccessListener(documentReference -> {
+            // Store the order data in Firebase Realtime Database
+            firebaseDatabase.getReference("Orders").child(orderId)
+                    .setValue(pendingOrder)
+                    .addOnSuccessListener(aVoid -> {
+                        updateItemQuantities(cartItems); // Call the method to update quantities
                         Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
@@ -137,4 +144,31 @@ public class ConfirmActivity extends BaseActivity {
         });
     }
 
+    // New method to update item quantities in the Realtime Database
+    private void updateItemQuantities(List<PendingOrderModel.Item> cartItems) {
+        DatabaseReference databaseReference = firebaseDatabase.getReference("categories");
+
+        for (PendingOrderModel.Item item : cartItems) {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot categorySnapshot : snapshot.getChildren()) {
+                        for (DataSnapshot itemSnapshot : categorySnapshot.getChildren()) {
+                            if (itemSnapshot.child("name").getValue(String.class).equals(item.getName())) {
+                                long currentQuantity = itemSnapshot.child("quantity").getValue(Long.class);
+                                long updatedQuantity = currentQuantity - item.getQuantity();
+                                itemSnapshot.getRef().child("quantity").setValue(Math.max(updatedQuantity, 0));
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("ConfirmActivity", "Failed to update quantity: " + error.getMessage());
+                }
+            });
+        }
+    }
 }

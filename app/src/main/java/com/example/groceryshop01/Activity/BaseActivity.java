@@ -45,10 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity {
                     finish();
                 }
                 return true;
-            }
-            else if (itemId == R.id.nav_favourites) {
+            }else if (itemId == R.id.nav_favourites) {
+                if (!(this instanceof OrderReceivedActivity)) {
                     startActivity(new Intent(this, OrderReceivedActivity.class));
                     finish();
+                }
                 return true;
             }
             return false;
@@ -68,6 +69,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.nav_cart);
         } else if (this instanceof ProfileActivity) {
             bottomNavigationView.setSelectedItemId(R.id.nav_profile);
+        }
+        else if (this instanceof OrderReceivedActivity) {
+            bottomNavigationView.setSelectedItemId(R.id.nav_favourites);
         }
     }
 }

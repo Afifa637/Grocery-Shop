@@ -4,50 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 public class PendingOrderModel implements Serializable {
+    private String orderId;
     private String customerName;
     private String status;
+    private String moneyStatus;
+    private double total;
     private List<Item> itemsList;
 
-    // Default constructor required for Firestore
-    public PendingOrderModel() {}
-
-    public PendingOrderModel(String customerName, List<Item> itemsList) {
-        this.customerName = customerName;
-        this.status = "pending"; // Default status
-        this.itemsList = itemsList;
-    }
-
-    // Getters and setters
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Item> getItemsList() {
-        return itemsList;
-    }
-
-    public void setItemsList(List<Item> itemsList) {
-        this.itemsList = itemsList;
-    }
-
-    // Nested class for items
-    public static class Item {
+    public static class Item implements Serializable {
         private String name;
         private int quantity;
 
-        public Item() {}
+        public Item() {} // Default constructor
 
         public Item(String name, int quantity) {
             this.name = name;
@@ -58,16 +26,47 @@ public class PendingOrderModel implements Serializable {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public int getQuantity() {
             return quantity;
         }
+    }
 
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
+    public PendingOrderModel() {} // Default constructor
+
+    public PendingOrderModel(String orderId, String customerName, List<Item> itemsList, String status, String moneyStatus, double total) {
+        this.orderId = orderId;
+        this.customerName = customerName;
+        this.itemsList = itemsList;
+        this.status = status;
+        this.moneyStatus = moneyStatus;
+        this.total = total;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getMoneyStatus() {
+        return moneyStatus;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public double setTotal(double total) {
+        return total;
+    }
+
+    public List<Item> getItemsList() {
+        return itemsList;
     }
 }

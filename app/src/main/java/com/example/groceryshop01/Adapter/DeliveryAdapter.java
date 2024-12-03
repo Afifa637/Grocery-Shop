@@ -1,39 +1,58 @@
 package com.example.groceryshop01.Adapter;
 
-import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceryshop01.Activity.OrderDispatchActivity;
 import com.example.groceryshop01.R;
-import com.example.groceryshop01.databinding.DeliveryItemBinding;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.DeliveryViewHolder> {
 
-    private final ArrayList<String> customerNames;
-    private final ArrayList<String> moneyStatus;
+    private ArrayList<String> customerNames;
+    private ArrayList<String> moneyStatus;
+    private ArrayList<String> orderIds;
 
-    public DeliveryAdapter(ArrayList<String> customerNames, ArrayList<String> moneyStatus) {
-        this.customerNames = customerNames != null ? customerNames : new ArrayList<>();
-        this.moneyStatus = moneyStatus != null ? moneyStatus : new ArrayList<>();
+    public DeliveryAdapter(ArrayList<String> customerNames, ArrayList<String> moneyStatus, ArrayList<String> orderIds) {
+        this.customerNames = customerNames;
+        this.moneyStatus = moneyStatus;
+        this.orderIds = orderIds;
     }
 
     @NonNull
     @Override
     public DeliveryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        DeliveryItemBinding binding = DeliveryItemBinding.inflate(inflater, parent, false);
-        return new DeliveryViewHolder(binding);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.delivery_item, parent, false);
+        return new DeliveryViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DeliveryViewHolder holder, int position) {
-        holder.bind(position);
+        holder.customerNameText.setText(customerNames.get(position));
+        holder.moneyStatusText.setText(moneyStatus.get(position));
+
+        // If the order is accepted, change the button's text and color
+        if ("accepted".equals(moneyStatus.get(position))) {
+            holder.acceptButton.setText("Accepted");
+            holder.acceptButton.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey));  // Adjust color as needed
+        } else {
+            holder.acceptButton.setText("Accept");
+            holder.acceptButton.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.medium_sea_green));  // Adjust color as needed
+        }
+
+        // Set the button click listener
+        holder.acceptButton.setOnClickListener(v -> {
+            // Update status to accepted and change the UI
+            ((OrderDispatchActivity) holder.itemView.getContext()).acceptOrder(orderIds.get(position), holder.acceptButton);
+        });
     }
 
     @Override
@@ -41,26 +60,16 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Delive
         return customerNames.size();
     }
 
-    public class DeliveryViewHolder extends RecyclerView.ViewHolder {
-        private final DeliveryItemBinding binding;
+    public static class DeliveryViewHolder extends RecyclerView.ViewHolder {
+        TextView customerNameText;
+        TextView moneyStatusText;
+        Button acceptButton;
 
-        public DeliveryViewHolder(DeliveryItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        public void bind(int position) {
-            HashMap<String, Integer> colorMap = new HashMap<>();
-            colorMap.put("received", ContextCompat.getColor(binding.getRoot().getContext(), R.color.dark_green));
-            colorMap.put("not received", ContextCompat.getColor(binding.getRoot().getContext(), R.color.dark_red));
-
-            binding.customerName.setText(customerNames.get(position));
-            binding.statusTxt.setText(moneyStatus.get(position));
-
-            int color = colorMap.getOrDefault(moneyStatus.get(position),
-                    ContextCompat.getColor(binding.getRoot().getContext(), R.color.black));
-            binding.statusTxt.setTextColor(color);
-            binding.statusCol.setBackgroundTintList(ColorStateList.valueOf(color));
+        public DeliveryViewHolder(View itemView) {
+            super(itemView);
+            customerNameText = itemView.findViewById(R.id.customerNameTxt);
+            moneyStatusText = itemView.findViewById(R.id.statusTxt);
+            acceptButton = itemView.findViewById(R.id.acceptBtn);
         }
     }
 }

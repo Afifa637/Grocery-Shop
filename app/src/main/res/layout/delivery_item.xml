@@ -25,7 +25,7 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/customerName"
+                android:id="@+id/customerNameTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -46,10 +46,10 @@
                 android:text="Payment"
                 android:textColor="@color/dark_grey"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/customerName"
+                app:layout_constraintEnd_toEndOf="@+id/customerNameTxt"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@id/customerName"
-                app:layout_constraintTop_toBottomOf="@id/customerName" />
+                app:layout_constraintStart_toStartOf="@id/customerNameTxt"
+                app:layout_constraintTop_toBottomOf="@id/customerNameTxt" />
 
             <TextView
                 android:id="@+id/statusTxt"
@@ -72,9 +72,9 @@
                 android:text="Delivery"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/customerName"
+                app:layout_constraintBottom_toBottomOf="@+id/customerNameTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customerName" />
+                app:layout_constraintTop_toTopOf="@+id/customerNameTxt" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/statusCol"

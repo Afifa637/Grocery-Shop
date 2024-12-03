@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,14 @@ import com.example.groceryshop01.Adapter.PendingOrderAdapter;
 import com.example.groceryshop01.Domain.PendingOrderModel;
 import com.example.groceryshop01.R;
 import com.example.groceryshop01.databinding.ActivityPendingOrderBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,7 +35,7 @@ public class PendingOrderActivity extends AppCompatActivity {
 
     private RecyclerView deliveryRecyclerView;
     private PendingOrderAdapter pendingOrderAdapter;
-    private FirebaseFirestore firestore;
+    private DatabaseReference ordersDatabase;
     private List<PendingOrderModel> pendingOrders;
     private ActivityPendingOrderBinding binding;
 
@@ -36,89 +45,113 @@ public class PendingOrderActivity extends AppCompatActivity {
         binding = ActivityPendingOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        SharedPreferences sharedPreferences = getSharedPreferences("OrderPreferences", MODE_PRIVATE);
-        String customerName = sharedPreferences.getString("customerName", "Unknown");
-
-        // Initialize Firestore and UI components
-        firestore = FirebaseFirestore.getInstance();
+        // Initialize Firebase Realtime Database
+        ordersDatabase = FirebaseDatabase.getInstance().getReference("Orders");
         deliveryRecyclerView = binding.deliveryRecyclerView;
 
         setupRecyclerView();
-        fetchOrdersFromFirestore();
-        statusBarColor();
-        buttonNavigation();
+        fetchOrdersFromDatabase();
+        setupUI();
     }
 
     private void setupRecyclerView() {
         pendingOrders = new ArrayList<>();
         pendingOrderAdapter = new PendingOrderAdapter(pendingOrders, this, (order, position) -> {
-            updateMoneyStatus("not received");
+            // Update order status and money status on button click
+            updateOrderStatus(order.getOrderId(), "accepted");
+            updateMoneyStatus(order.getOrderId(), "not received");
             Toast.makeText(this, "Order accepted. View Dispatch for updates!", Toast.LENGTH_SHORT).show();
-
-            pendingOrders.remove(position);
-            pendingOrderAdapter.notifyItemRemoved(position);
         });
 
         deliveryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         deliveryRecyclerView.setAdapter(pendingOrderAdapter);
     }
 
-    private void fetchOrdersFromFirestore() {
-        firestore.collection("Orders")
-                .whereEqualTo("status", "pending")
-                .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    pendingOrders.clear();
-                    if (querySnapshot.isEmpty()) {
-                        Log.d("PendingOrderActivity", "No pending orders found");
-                        Toast.makeText(this, "No pending orders available.", Toast.LENGTH_SHORT).show();
-                        return;
+    private void fetchOrdersFromDatabase() {
+        ordersDatabase.orderByChild("status").equalTo("pending").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                pendingOrders.clear(); // Clear old data
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    PendingOrderModel order = snapshot.getValue(PendingOrderModel.class);
+                    if (order != null) {
+                        pendingOrders.add(order);
                     }
-                    for (DocumentSnapshot document : querySnapshot) {
-                        PendingOrderModel order = document.toObject(PendingOrderModel.class);
-                        if (order != null) {
-                            Log.d("PendingOrderActivity", "Fetched order: " + order.getCustomerName());
-                            if (order.getItemsList() != null) {
-                                for (PendingOrderModel.Item item : order.getItemsList()) {
-                                    Log.d("PendingOrderActivity", "Item: " + item.getName() + ", Quantity: " + item.getQuantity());
-                                }
-                            } else {
-                                Log.d("PendingOrderActivity", "ItemsList is null for order: " + order.getCustomerName());
-                            }
-                            pendingOrders.add(order);
-                        }
-                    }
-                    pendingOrderAdapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("PendingOrderActivity", "Error fetching orders", e);
-                    Toast.makeText(this, "Failed to load orders: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
+                }
+                pendingOrderAdapter.notifyDataSetChanged();
+            }
 
-    private void buttonNavigation() {
-        binding.backBtn.setOnClickListener(v -> {
-            finish();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(PendingOrderActivity.this, "Failed to load orders: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
-
     }
 
-    private void statusBarColor() {
-        Window window = PendingOrderActivity.this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(PendingOrderActivity.this, R.color.dark_green));
+    private void setupUI() {
+        binding.backBtn.setOnClickListener(v -> finish());
+        Window window = getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.dark_green));
     }
 
-    private void updateMoneyStatus(String status) {
-        firestore.collection("Users")
-                .whereEqualTo("isCustomer", "1")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        document.getReference().update("moneyStatus", status)
-                                .addOnSuccessListener(aVoid -> Log.d("ConfirmActivity", "Status updated"))
-                                .addOnFailureListener(e -> Log.e("ConfirmActivity", "Error updating status", e));
+    private void updateOrderStatus(String orderId, String status) {
+        ordersDatabase.child(orderId).child("status").setValue(status)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("PendingOrderActivity", "Order status updated successfully.");
+                    if ("accepted".equals(status)) {
+                        updateRevenueAndCompletedOrders(orderId);
                     }
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Error fetching users for status update.", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Log.e("PendingOrderActivity", "Failed to update order status", e));
+    }
+
+    private void updateRevenueAndCompletedOrders(String orderId) {
+        DatabaseReference revenueRef = FirebaseDatabase.getInstance().getReference("Admin/revenue");
+        ordersDatabase.child(orderId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                PendingOrderModel order = snapshot.getValue(PendingOrderModel.class);
+                if (order != null) {
+                    double orderTotal = order.getTotal();
+
+                    revenueRef.runTransaction(new Transaction.Handler() {
+                        @Override
+                        public Transaction.Result doTransaction(MutableData mutableData) {
+                            Double currentRevenue = mutableData.child("totalRevenue").getValue(Double.class);
+                            Long completedOrders = mutableData.child("completedOrders").getValue(Long.class);
+
+                            if (currentRevenue == null) currentRevenue = 0.0;
+                            if (completedOrders == null) completedOrders = 0L;
+
+                            mutableData.child("totalRevenue").setValue(currentRevenue + orderTotal);
+                            mutableData.child("completedOrders").setValue(completedOrders + 1);
+
+                            return Transaction.success(mutableData);
+                        }
+
+                        @Override
+                        public void onComplete(DatabaseError error, boolean committed, DataSnapshot currentData) {
+                            if (error == null) {
+                                Log.d("PendingOrderActivity", "Revenue and completed orders updated successfully.");
+                            } else {
+                                Log.e("PendingOrderActivity", "Failed to update revenue and completed orders", error.toException());
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e("PendingOrderActivity", "Failed to fetch order data for revenue update", error.toException());
+            }
+        });
+    }
+
+
+    private void updateMoneyStatus(String orderId, String status) {
+        ordersDatabase.child(orderId).child("moneyStatus").setValue(status)
+                .addOnSuccessListener(aVoid -> Log.d("PendingOrderActivity", "Money status updated successfully."))
+                .addOnFailureListener(e -> Log.e("PendingOrderActivity", "Failed to update money status", e));
     }
 }
