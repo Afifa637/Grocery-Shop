@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -40,7 +39,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="203dp"
+        android:layout_width="170dp"
         android:layout_height="24dp"
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
@@ -49,7 +48,7 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="24dp"
+            android:layout_width="95dp"
             android:layout_height="24dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_edit"
@@ -60,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="24dp"
             android:gravity="center"
             android:text="Edit Your Profile"
             android:textColor="@color/medium_slate_blue" />
@@ -166,7 +166,7 @@
                 android:inputType="textMultiLine"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text="mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" />
+                android:text="--" />
 
         </LinearLayout>
 

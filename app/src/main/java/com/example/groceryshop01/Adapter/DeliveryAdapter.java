@@ -1,75 +1,73 @@
 package com.example.groceryshop01.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceryshop01.Activity.OrderDispatchActivity;
+import com.example.groceryshop01.Domain.Order;
 import com.example.groceryshop01.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.DeliveryViewHolder> {
 
-    private ArrayList<String> customerNames;
-    private ArrayList<String> moneyStatus;
-    private ArrayList<String> orderIds;
+    private List<Order> orders;
+    private Context context;
 
-    public DeliveryAdapter(ArrayList<String> customerNames, ArrayList<String> moneyStatus, ArrayList<String> orderIds) {
-        this.customerNames = customerNames;
-        this.moneyStatus = moneyStatus;
-        this.orderIds = orderIds;
+    public DeliveryAdapter(List<Order> orders, Context context) {
+        this.orders = orders;
+        this.context = context;
     }
 
-    @NonNull
     @Override
-    public DeliveryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.delivery_item, parent, false);
+    public DeliveryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_deliveryitem, parent, false);
         return new DeliveryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DeliveryViewHolder holder, int position) {
-        holder.customerNameText.setText(customerNames.get(position));
-        holder.moneyStatusText.setText(moneyStatus.get(position));
+    public void onBindViewHolder(DeliveryViewHolder holder, int position) {
+        Order order = orders.get(position);
 
-        // If the order is accepted, change the button's text and color
-        if ("accepted".equals(moneyStatus.get(position))) {
-            holder.acceptButton.setText("Accepted");
-            holder.acceptButton.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.grey));  // Adjust color as needed
+        holder.customerNameTxt.setText(order.getCustomerName()); // Set customer name
+        holder.orderId.setText(order.getOrderId()); // Set order ID
+
+        String moneyStatus = order.getMoneyStatus();
+
+        // Set the moneyStatus text and update the color accordingly
+        if ("received".equalsIgnoreCase(moneyStatus)) {
+            holder.moneyStatus.setText("Received");
+            holder.moneyStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_green)); // Change text color to green
+            holder.statusCol.setCardBackgroundColor(ContextCompat.getColor(context, R.color.dark_green)); // Green for received
         } else {
-            holder.acceptButton.setText("Accept");
-            holder.acceptButton.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.medium_sea_green));  // Adjust color as needed
+            holder.moneyStatus.setText("Not Received");
+            holder.moneyStatus.setTextColor(ContextCompat.getColor(context, R.color.firebrick)); // Change text color to red
+            holder.statusCol.setCardBackgroundColor(ContextCompat.getColor(context, R.color.firebrick)); // Red for not received
         }
-
-        // Set the button click listener
-        holder.acceptButton.setOnClickListener(v -> {
-            // Update status to accepted and change the UI
-            ((OrderDispatchActivity) holder.itemView.getContext()).acceptOrder(orderIds.get(position), holder.acceptButton);
-        });
     }
+
 
     @Override
     public int getItemCount() {
-        return customerNames.size();
+        return orders.size();
     }
 
     public static class DeliveryViewHolder extends RecyclerView.ViewHolder {
-        TextView customerNameText;
-        TextView moneyStatusText;
-        Button acceptButton;
+        TextView customerNameTxt, orderId, moneyStatus;
+        CardView statusCol;
 
         public DeliveryViewHolder(View itemView) {
             super(itemView);
-            customerNameText = itemView.findViewById(R.id.customerNameTxt);
-            moneyStatusText = itemView.findViewById(R.id.statusTxt);
-            acceptButton = itemView.findViewById(R.id.acceptBtn);
+            customerNameTxt = itemView.findViewById(R.id.customerNameTxt);
+            orderId = itemView.findViewById(R.id.orderId);
+            moneyStatus = itemView.findViewById(R.id.moneyStatus);
+            statusCol = itemView.findViewById(R.id.statusCol);
         }
     }
 }

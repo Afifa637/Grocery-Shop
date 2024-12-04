@@ -48,5 +48,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
-        tools:listitem="@layout/delivery_item" />
+        tools:listitem="@layout/viewholder_deliveryitem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

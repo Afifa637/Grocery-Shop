@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+
 public class AdminMainActivity extends AppCompatActivity {
 
     @Override
@@ -84,7 +86,8 @@ public class AdminMainActivity extends AppCompatActivity {
                     Long completedOrders = dataSnapshot.child("completedOrders").getValue(Long.class);
 
                     if (totalRevenue != null) {
-                        revenueTxt.setText(totalRevenue + " Tk");
+                        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+                        revenueTxt.setText(decimalFormat.format(totalRevenue) + " Tk");
                     } else {
                         revenueTxt.setText("0 Tk");
                     }

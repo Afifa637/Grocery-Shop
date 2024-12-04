@@ -144,7 +144,6 @@ public class ConfirmActivity extends BaseActivity {
         });
     }
 
-    // New method to update item quantities in the Realtime Database
     private void updateItemQuantities(List<PendingOrderModel.Item> cartItems) {
         DatabaseReference databaseReference = firebaseDatabase.getReference("categories");
 
