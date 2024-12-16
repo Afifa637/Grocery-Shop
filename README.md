@@ -1,14 +1,14 @@
-# Grocery Shop App
+# Green Grocer
 
 ## Overview
 
-The Grocery Shop App is a comprehensive mobile application designed to facilitate online grocery shopping. It allows users to browse, select, and purchase a wide variety of grocery items from the comfort of their homes. The app is built using Java and leverages Firebase for backend services, including database management and authentication.
+The Green Grocer App is a comprehensive mobile application designed to facilitate online grocery shopping. It allows users to browse, select, and purchase a wide variety of grocery items from the comfort of their homes. The app is built using Java and leverages Firebase for backend services, including database management and authentication.
 
 ## Features
 
 ### **User Features**
 - **User Registration and Login:** Users can create accounts and log in with their email and password.
-- **Browse Items:** Explore various categories such as Fruits, Vegetables, Dairy, Proteins, Grains, and Drinks.
+- **Browse Items:** Explore various categories such as Fruits, Vegetables, Dairy, Proteins, Grains.
 - **Search and Filter:** Search for specific items and filter results based on categories.
 - **Add to Cart:** Add items to the shopping cart and adjust quantities using the `ChangeNumberItemsListener`.
 - **Order Placement:** Place orders for selected items in the cart.
@@ -65,9 +65,6 @@ The Grocery Shop App is a comprehensive mobile application designed to facilitat
 
 ## Contributing
 Contributions are welcome! Fork the repository and create a pull request with proposed changes.
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ## Contact
 For inquiries or support, contact [Afifa637](https://github.com/Afifa637).
