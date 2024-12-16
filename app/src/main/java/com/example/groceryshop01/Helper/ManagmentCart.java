@@ -84,17 +84,18 @@ public class ManagmentCart {
 
         tinyDB.putListObject("CartList", listItem);
 
-        // Notify the listener (RecyclerView will also be updated)
         if (changeNumberItemsListener != null) {
             changeNumberItemsListener.change();
         }
     }
 
-
-
     public void plusNumberItem(ArrayList<ItemsModel> listItem, int position, ChangeNumberItemsListener changeNumberItemsListener) {
         listItem.get(position).setQuantity(listItem.get(position).getQuantity() + 1);
         tinyDB.putListObject("CartList", listItem);
         changeNumberItemsListener.change();
+    }
+
+    public void clearCart() {
+        tinyDB.remove("CartList");
     }
 }

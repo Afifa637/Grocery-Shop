@@ -15,10 +15,10 @@ public class MainViewModel extends ViewModel {
     private final MainRepository repository;
 
     public MainViewModel() {
-        repository = new MainRepository();  // Initialize repository
+        repository = new MainRepository();
     }
 
     public LiveData<List<ItemsModel>> loadFiltered(Context context, int categoryId) {
-        return repository.loadFiltered(context, categoryId);  // Call repository method
+        return repository.loadFiltered(context, categoryId);
     }
 }

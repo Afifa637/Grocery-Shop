@@ -35,20 +35,19 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.Delive
     public void onBindViewHolder(DeliveryViewHolder holder, int position) {
         Order order = orders.get(position);
 
-        holder.customerNameTxt.setText(order.getCustomerName()); // Set customer name
-        holder.orderId.setText(order.getOrderId()); // Set order ID
+        holder.customerNameTxt.setText(order.getCustomerName());
+        holder.orderId.setText(order.getOrderId());
 
         String moneyStatus = order.getMoneyStatus();
 
-        // Set the moneyStatus text and update the color accordingly
         if ("received".equalsIgnoreCase(moneyStatus)) {
             holder.moneyStatus.setText("Received");
-            holder.moneyStatus.setTextColor(ContextCompat.getColor(context, R.color.dark_green)); // Change text color to green
-            holder.statusCol.setCardBackgroundColor(ContextCompat.getColor(context, R.color.dark_green)); // Green for received
+            holder.moneyStatus.setTextColor(ContextCompat.getColor(context, R.color.medium_sea_green));
+            holder.statusCol.setCardBackgroundColor(ContextCompat.getColor(context, R.color.medium_sea_green));
         } else {
             holder.moneyStatus.setText("Not Received");
-            holder.moneyStatus.setTextColor(ContextCompat.getColor(context, R.color.firebrick)); // Change text color to red
-            holder.statusCol.setCardBackgroundColor(ContextCompat.getColor(context, R.color.firebrick)); // Red for not received
+            holder.moneyStatus.setTextColor(ContextCompat.getColor(context, R.color.firebrick));
+            holder.statusCol.setCardBackgroundColor(ContextCompat.getColor(context, R.color.firebrick));
         }
     }
 

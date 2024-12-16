@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import com.example.groceryshop01.Domain.ItemsModel;
 import com.example.groceryshop01.Adapter.ListItemAdapter;
 import com.example.groceryshop01.R;
@@ -44,28 +44,21 @@ public class ListActivity extends BaseActivity {
         FrameLayout activityContent = findViewById(R.id.activityContent);
         activityContent.addView(binding.getRoot());
 
-        // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Initializing ViewModel
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        // Set title from Intent extra
         binding.titleTxt.setText(getIntent().getStringExtra("title"));
 
-        // Set up RecyclerView and Adapter
-        adapter = new ListItemAdapter(itemsList, this);
-        binding.view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        adapter = new ListItemAdapter(itemsList, this, true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        binding.view.setLayoutManager(gridLayoutManager);
         binding.view.setAdapter(adapter);
 
-        // Show progress bar while fetching data
         binding.progressBar2.setVisibility(View.VISIBLE);
 
-        // Get the category ID from Intent extra
         int categoryId = getIntent().getIntExtra("id", -1);
         Log.d("ListActivity", "Category ID received: " + categoryId);
 
-        // Set category image based on ID
         switch (categoryId) {
             case 1:
                 binding.pic.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.vegetables));
@@ -84,13 +77,11 @@ public class ListActivity extends BaseActivity {
                 break;
         }
 
-        // Fetch items based on category ID
         fetchItemsFromFirebase(categoryId);
 
-        // Menu button onClick listener to navigate back to MainActivity
         binding.menuBtn.setOnClickListener(view -> {
-            Intent intentToMain = new Intent(ListActivity.this, MainActivity.class);
-            startActivity(intentToMain);
+            Intent intent = new Intent(ListActivity.this, MainActivity.class);
+            startActivity(intent);
         });
         statusBarColor();
     }
@@ -100,18 +91,16 @@ public class ListActivity extends BaseActivity {
         window.setStatusBarColor(ContextCompat.getColor(ListActivity.this, R.color.dark_green));
     }
 
-    // Fetch items from Firebase based on the category ID
     private void fetchItemsFromFirebase(int categoryId) {
         binding.progressBar2.setVisibility(View.VISIBLE);
 
-        // Map the categoryId to the Firebase category name
         String categoryName = getCategoryNameById(categoryId);
 
         if (categoryName != null) {
             databaseReference.child("categories").child(categoryName).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    itemsList.clear();  // Clear the list to avoid duplicates
+                    itemsList.clear();
 
                     if (!snapshot.exists()) {
                         Log.d("ListActivity", "No items found for category: " + categoryName);
@@ -121,7 +110,7 @@ public class ListActivity extends BaseActivity {
                         ItemsModel item = itemSnapshot.getValue(ItemsModel.class);
                         if (item != null) {
                             Log.d("ListActivity", "Item: " + item.getName());
-                            itemsList.add(item);  // Add the item to the list
+                            itemsList.add(item);
                         }
                     }
 
@@ -130,7 +119,7 @@ public class ListActivity extends BaseActivity {
                         Log.d("ListActivity", "No items to display.");
                     } else {
                         binding.emptyTxt.setVisibility(View.GONE);
-                        adapter.notifyDataSetChanged();  // Notify adapter to refresh the view
+                        adapter.notifyDataSetChanged();
                     }
 
                     binding.progressBar2.setVisibility(View.GONE);
@@ -145,7 +134,6 @@ public class ListActivity extends BaseActivity {
         }
     }
 
-    // Map categoryId to Firebase category name
     private String getCategoryNameById(int categoryId) {
         switch (categoryId) {
             case 1:

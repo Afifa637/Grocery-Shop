@@ -15,7 +15,7 @@ public class PendingOrderModel implements Serializable {
         private String name;
         private int quantity;
 
-        public Item() {} // Default constructor
+        public Item() {}
 
         public Item(String name, int quantity) {
             this.name = name;
@@ -31,7 +31,7 @@ public class PendingOrderModel implements Serializable {
         }
     }
 
-    public PendingOrderModel() {} // Default constructor
+    public PendingOrderModel() {}
 
     public PendingOrderModel(String orderId, String customerName, List<Item> itemsList, String status, String moneyStatus, double total) {
         this.orderId = orderId;

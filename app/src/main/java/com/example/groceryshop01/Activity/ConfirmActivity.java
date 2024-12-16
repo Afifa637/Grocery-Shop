@@ -39,7 +39,7 @@ public class ConfirmActivity extends BaseActivity {
     private TextView userNameTxt, userEmailTxt, deliveryAddressTxt, dateTxt, paymentMethodTxt, totalTxt, storeNameTxt;
     private ManagmentCart managmentCart;
     private ActivityConfirmBinding binding;
-    private double total; // Declare total at the class level
+    private double total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +97,15 @@ public class ConfirmActivity extends BaseActivity {
             paymentMethodTxt.setText(selectedMethod);
         }
 
-        double percentTax = 0.02; // 2% tax
-        double delivery = 10; // Flat delivery fee
+        double percentTax = 0.02;
+        double delivery = 100;
         double itemTotal = Math.round(managmentCart.getTotalFee() * 100) / 100.0;
         double tax = Math.round(itemTotal * percentTax * 100) / 100.0;
-        total = Math.round((itemTotal + tax + delivery) * 100) / 100.0; // Assign total to class variable
+        total = Math.round((itemTotal + tax + delivery) * 100) / 100.0;
 
         totalTxt.setText("Tk " + total);
         storeNameTxt.setText("GreenGrocer");
 
-        // Creating a PendingOrderModel instance to set the total
         PendingOrderModel pendingOrder = new PendingOrderModel();
         pendingOrder.setTotal(total);
     }
@@ -127,15 +126,15 @@ public class ConfirmActivity extends BaseActivity {
                 return;
             }
 
-            String orderId = firebaseDatabase.getReference("Orders").push().getKey(); // Generate a new order ID
+            String orderId = firebaseDatabase.getReference("Orders").push().getKey();
             PendingOrderModel pendingOrder = new PendingOrderModel(orderId, customerName, cartItems, "pending", "not received", total);
             pendingOrder.setTotal(total);
 
-            // Store the order data in Firebase Realtime Database
             firebaseDatabase.getReference("Orders").child(orderId)
                     .setValue(pendingOrder)
                     .addOnSuccessListener(aVoid -> {
-                        updateItemQuantities(cartItems); // Call the method to update quantities
+                        updateItemQuantities(cartItems);
+                        managmentCart.clearCart();
                         Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {

@@ -24,28 +24,21 @@ public class MainRepository {
 
     private final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-    /**
-     * Load filtered items from local JSON or Firebase based on categoryId.
-     */
     public LiveData<List<ItemsModel>> loadFiltered(Context context, int categoryId) {
         MutableLiveData<List<ItemsModel>> listData = new MutableLiveData<>();
 
-        // Load from local JSON
         try {
             String jsonString = loadJSONFromAsset(context, "categories.json");
             if (jsonString != null) {
-                // Parse JSON using Gson
                 Type listType = new TypeToken<ArrayList<ItemsModel>>() {}.getType();
                 List<ItemsModel> allItems = new Gson().fromJson(jsonString, listType);
 
-                // Filter items by categoryId
                 List<ItemsModel> categoryItems = new ArrayList<>();
                 for (ItemsModel item : allItems) {
                     if (item.getCategoryId() == categoryId) {
                         categoryItems.add(item);
                     }
                 }
-                // Post filtered items
                 listData.postValue(categoryItems);
             }
         } catch (Exception e) {
@@ -68,7 +61,6 @@ public class MainRepository {
                     }
                 }
 
-                // Merge or replace with Firebase data if available
                 if (!firebaseItems.isEmpty()) {
                     listData.postValue(firebaseItems);
                 }
@@ -76,7 +68,6 @@ public class MainRepository {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Log the error if needed
                 error.toException().printStackTrace();
             }
         });
@@ -84,9 +75,6 @@ public class MainRepository {
         return listData;
     }
 
-    /**
-     * Load JSON from assets folder.
-     */
     private String loadJSONFromAsset(Context context, String fileName) {
         String json = null;
         try {

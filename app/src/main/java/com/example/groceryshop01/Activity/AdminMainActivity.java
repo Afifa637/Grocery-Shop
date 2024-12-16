@@ -29,7 +29,6 @@ public class AdminMainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         listenToRevenueUpdates();
-        // Set up the click listener for the addMenu button
         binding.addMenu.setOnClickListener(v -> {
             Intent intent = new Intent(AdminMainActivity.this, AddItemActivity.class);
             startActivity(intent);

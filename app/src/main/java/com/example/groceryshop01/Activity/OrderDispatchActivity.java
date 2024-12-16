@@ -1,8 +1,10 @@
 package com.example.groceryshop01.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,7 @@ public class OrderDispatchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private DeliveryAdapter adapter;
+    private ImageView BackBtn;
     private List<Order> orders = new ArrayList<>();
 
     @Override
@@ -36,9 +39,12 @@ public class OrderDispatchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new DeliveryAdapter(orders, this);
         recyclerView.setAdapter(adapter);
+        BackBtn = findViewById(R.id.backBtn);
+
 
         fetchAcceptedOrders();
         statusBarColor();
+        setupButtonNavigation();
     }
 
     private void fetchAcceptedOrders() {
@@ -46,16 +52,15 @@ public class OrderDispatchActivity extends AppCompatActivity {
         databaseRef.orderByChild("status").equalTo("accepted").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                orders.clear(); // Clear any existing data to avoid duplication
+                orders.clear();
                 for (DataSnapshot orderSnapshot : snapshot.getChildren()) {
-                    String orderId = orderSnapshot.getKey(); // Get orderId from Firebase key
+                    String orderId = orderSnapshot.getKey();
                     String customerName = orderSnapshot.child("customerName").getValue(String.class);
                     String moneyStatus = orderSnapshot.child("moneyStatus").getValue(String.class);
 
-                    // Add new Order object to the list
                     orders.add(new Order(customerName, orderId, moneyStatus));
                 }
-                adapter.notifyDataSetChanged(); // Notify adapter about data changes
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -69,4 +74,11 @@ public class OrderDispatchActivity extends AppCompatActivity {
         Window window = OrderDispatchActivity.this.getWindow();
         window.setStatusBarColor(ContextCompat.getColor(OrderDispatchActivity.this, R.color.dark_green));
     }
+
+    private void setupButtonNavigation() {
+        BackBtn.setOnClickListener(v -> {
+            startActivity(new Intent(OrderDispatchActivity.this, AdminMainActivity.class));
+        });
+    }
+
 }

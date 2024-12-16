@@ -3,8 +3,8 @@ package com.example.groceryshop01.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
@@ -21,16 +21,17 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
     private final ArrayList<ItemsModel> items;
     private final Context context;
+    private final boolean hideEditDeleteButton;
 
-    public ListItemAdapter(ArrayList<ItemsModel> items, Context context) {
+    public ListItemAdapter(ArrayList<ItemsModel> items, Context context, boolean hideEditDeleteButton) {
         this.items = items;
         this.context = context;
+        this.hideEditDeleteButton = hideEditDeleteButton;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Ensure the binding references the correct XML file
         ViewholderItemBinding binding = ViewholderItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
@@ -45,11 +46,11 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
             holder.binding.titleTxt.setText("Unknown Item");
         }
         holder.binding.feeTxt.setText("Tk " + item.getPrice());
-        
-        holder.binding.scrTxt.setText(String.valueOf(item.getScore()));
         holder.binding.numberItemTxt.setText((String.valueOf((item.getQuantity()))));
 
-        // Load item image using Glide
+        double score = item.getScore();
+        holder.binding.scrTxt.setText(String.valueOf(score));
+
         String imageUrl = item.getImage();
         Glide.with(context)
                 .load((imageUrl != null && !imageUrl.isEmpty()) ? imageUrl : R.drawable.add_img)
@@ -57,14 +58,19 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
                 .error(R.drawable.add_img)
                 .into(holder.binding.pic);
 
-        // Set item click listener
+        if (hideEditDeleteButton) {
+            holder.binding.editDeltBtn.setVisibility(View.GONE);
+        } else {
+            holder.binding.editDeltBtn.setVisibility(View.VISIBLE);
+        }
+
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra("itemsModel", (Parcelable) item);
+            intent.putExtra("scrTxt", score);
             context.startActivity(intent);
         });
 
-        // Handle edit/delete button actions
         holder.binding.editDeltBtn.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, view);
             popupMenu.getMenuInflater().inflate(R.menu.edit_delete_menu, popupMenu.getMenu());

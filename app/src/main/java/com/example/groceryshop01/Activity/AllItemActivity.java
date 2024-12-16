@@ -2,7 +2,6 @@ package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -13,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.groceryshop01.Adapter.ListItemAdapter;
 import com.example.groceryshop01.Domain.ItemsModel;
@@ -42,12 +41,11 @@ public class AllItemActivity extends AppCompatActivity {
         binding = ActivityAllItemBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Set up RecyclerView
-        adapter = new ListItemAdapter(itemsList, this);
-        binding.MenuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ListItemAdapter(itemsList, this, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        binding.MenuRecyclerView.setLayoutManager(gridLayoutManager);
         binding.MenuRecyclerView.setAdapter(adapter);
 
-        // Initialize Firebase database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("categories");
 
         setupCategoryClickListeners();
@@ -78,7 +76,6 @@ public class AllItemActivity extends AppCompatActivity {
                 for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
                     ItemsModel item = itemSnapshot.getValue(ItemsModel.class);
                     if (item != null) {
-                        // Set categoryKey and itemKey for each item
                         item.setCategoryKey(categoryKey);
                         item.setItemKey(itemSnapshot.getKey());
                         itemsList.add(item);

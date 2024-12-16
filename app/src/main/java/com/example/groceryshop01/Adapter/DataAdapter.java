@@ -1,19 +1,21 @@
 package com.example.groceryshop01.Adapter;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.groceryshop01.Domain.DataModel;
 import com.example.groceryshop01.R;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Map;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder> {
-    private List<DataModel> dataList;
+    private final List<DataModel> dataList;
 
     public DataAdapter(List<DataModel> dataList) {
         this.dataList = dataList;
@@ -30,11 +32,17 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     public void onBindViewHolder(@NonNull DataViewHolder holder, int position) {
         DataModel dataModel = dataList.get(position);
 
-        // Set category and demand items
-        holder.tvCategory.setText("Category: " + dataModel.getCategory());
-        holder.tvLowDemandItems.setText("Low Demand Items: " + dataModel.getLowDemandItems());
-        holder.tvHighDemandItems.setText("High Demand Items: " + dataModel.getHighDemandItems());
-        holder.tvEstimatedGrowth.setText(String.format("Estimated Increase: %.2f%%", dataModel.getEstimatedIncrease()));
+        holder.tvCategory.setText(dataModel.getCategory());
+        holder.tvLowDemandItems.setText("" + dataModel.getLowDemandItems());
+        holder.tvHighDemandItems.setText("" + dataModel.getHighDemandItems());
+        holder.tvEstimatedGrowth.setText("Estimated Growth of price: " + dataModel.getEstimatedIncrease());
+
+        Map<String, Integer> revenue = dataModel.getRevenue();
+        StringBuilder revenueText = new StringBuilder();
+        for (Map.Entry<String, Integer> entry : revenue.entrySet()) {
+            revenueText.append(entry.getKey()).append(": ").append(entry.getValue()).append("k\n");
+        }
+        holder.tvRevenue.setText(revenueText.toString().trim());
     }
 
     @Override
@@ -43,14 +51,16 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.DataViewHolder
     }
 
     public static class DataViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCategory, tvLowDemandItems, tvHighDemandItems, tvEstimatedGrowth;
+        TextView tvCategory, tvLowDemandItems, tvHighDemandItems, tvEstimatedGrowth, tvRevenue;
 
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCategory = itemView.findViewById(R.id.tvCategory);
-            tvLowDemandItems = itemView.findViewById(R.id.lowDemandItems);
-            tvHighDemandItems = itemView.findViewById(R.id.highDemandItems);
+
+            tvCategory = itemView.findViewById(R.id.tvCategoryTitle);
+            tvLowDemandItems = itemView.findViewById(R.id.tvLowDemand);
+            tvHighDemandItems = itemView.findViewById(R.id.tvHighDemand);
             tvEstimatedGrowth = itemView.findViewById(R.id.tvEstimatedGrowth);
+            tvRevenue = itemView.findViewById(R.id.tvRevenue);
         }
     }
 }

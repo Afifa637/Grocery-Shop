@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="32dp"
             android:gravity="center"
-            android:text="Item List"
+            android:text="Admin Profile"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />

@@ -8,7 +8,6 @@
     android:background="@color/lighter_goldenrod_yellow"
     tools:context=".Activity.Login">
 
-    <!-- Background Image (Top Half of Screen) -->
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="127dp"
@@ -69,7 +68,7 @@
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:paddingBottom="8dp"
-                android:text="Login"
+                android:text="Welcome Back!"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -125,6 +124,15 @@
                     android:minHeight="48dp"
                     android:padding="10dp" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/forgotBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_gravity="right"
+                android:backgroundTint="@color/white"
+                android:text="Forgot password?"
+                android:textColor="@color/medium_blue" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonLogin"

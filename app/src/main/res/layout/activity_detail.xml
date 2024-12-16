@@ -8,7 +8,6 @@
     android:background="@color/white"
     tools:context=".Activity.MainActivity">
 
-    <!-- Outer ConstraintLayout as the main container -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -67,9 +66,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
-            <!-- Inner ConstraintLayout for Toolbar Elements -->
-
-            <!-- Additional Image Below Toolbar -->
             <ImageView
                 android:id="@+id/itemPic"
                 android:layout_width="359dp"
@@ -129,7 +125,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="385dp"
-            android:layout_height="47dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
@@ -137,40 +133,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:numStars="5"
-                android:progressTint="@color/yellow"
-                android:rating="0"
-                android:stepSize="0.5" />
-
-            <TextView
-                android:id="@+id/ratingTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="(5)"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/ratingBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text="Review"
-                android:textColor="@color/medium_blue"
-                android:textStyle="italic"/>
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"/>
 
         <TextView
             android:id="@+id/textView8"
@@ -181,7 +144,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintHorizontal_bias="0.091"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
@@ -189,8 +152,9 @@
             android:id="@+id/descriptionTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:paddingEnd="44dp"
             android:text="Description text"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintHorizontal_bias="0.0"

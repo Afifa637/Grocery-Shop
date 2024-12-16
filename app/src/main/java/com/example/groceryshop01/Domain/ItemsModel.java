@@ -7,20 +7,19 @@ import java.io.Serializable;
 
 public class ItemsModel implements Serializable, Parcelable {
 
-    private String name;          // Item name
-    private String description;   // Item description
-    private String image;         // Image URL
-    private double price;         // Item price
-    private int quantity;         // Quantity available
-    private int categoryId;       // Category ID (if needed for filtering)
-    private double score;         // Number of this item in the cart
-    private String categoryKey;   // Firebase category key
-    private String itemKey;       // Firebase item key
+    private String name;
+    private String description;
+    private String image;
+    private double price;
+    private int quantity;
+    private int categoryId;
+    private float score;
+    private String categoryKey;
+    private String itemKey;
 
     public ItemsModel() {}
 
-    // Constructor with parameters
-    public ItemsModel(String name, String description, String image, double price, int quantity, int categoryId, double score, String categoryKey, String itemKey) {
+    public ItemsModel(String name, String description, String image, double price, int quantity, int categoryId, float score, String categoryKey, String itemKey) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -32,7 +31,6 @@ public class ItemsModel implements Serializable, Parcelable {
         this.itemKey = itemKey;
     }
 
-    // Getters and Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -51,8 +49,8 @@ public class ItemsModel implements Serializable, Parcelable {
     public int getCategoryId() { return categoryId; }
     public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
 
-    public double getScore() { return score; }
-    public void setScore(double score) { this.score = score; }
+    public float getScore() { return score; }
+    public void setScore(float score) { this.score = score; }
 
     public String getCategoryKey() { return categoryKey; }
     public void setCategoryKey(String categoryKey) { this.categoryKey = categoryKey; }
@@ -68,7 +66,7 @@ public class ItemsModel implements Serializable, Parcelable {
         price = in.readDouble();
         quantity = in.readInt();
         categoryId = in.readInt();
-        score = in.readDouble();
+        score = in.readFloat();
     }
 
     public static final Parcelable.Creator<ItemsModel> CREATOR = new Parcelable.Creator<ItemsModel>() {

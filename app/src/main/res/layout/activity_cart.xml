@@ -8,7 +8,6 @@
     android:background="@color/white"
     tools:context=".Activity.CartActivity">
 
-    <!-- TextView for empty cart message -->
     <TextView
         android:id="@+id/emptyTxt"
         android:layout_width="wrap_content"
@@ -51,7 +50,6 @@
             android:textSize="22sp"
             android:textStyle="bold" />
     </LinearLayout>
-    <!-- Scrollable layout for cart content -->
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -67,14 +65,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-            <!-- RecyclerView for cart items -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cartView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
-            <!-- Order Summary Title -->
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
@@ -86,7 +82,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Order Summary Details -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -203,7 +198,6 @@
                     app:layout_constraintStart_toStartOf="@+id/textView18"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
-                <!-- Additional Order Summary Views Here -->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

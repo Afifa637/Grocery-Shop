@@ -18,14 +18,14 @@ public class OrderItemsAdapter extends RecyclerView.Adapter<OrderItemsAdapter.It
     private final List<PendingOrderModel.Item> itemsList;
 
     public OrderItemsAdapter(List<PendingOrderModel.Item> itemsList) {
-        this.itemsList = new ArrayList<>(itemsList); // Ensure independent copy
+        this.itemsList = new ArrayList<>(itemsList);
     }
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_row, parent, false); // Assuming XML file is named `item_row.xml`
+        View view = inflater.inflate(R.layout.item_row, parent, false);
         return new ItemViewHolder(view);
     }
 

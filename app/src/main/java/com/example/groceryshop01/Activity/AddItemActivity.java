@@ -1,25 +1,18 @@
 package com.example.groceryshop01.Activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,19 +21,12 @@ import com.example.groceryshop01.Adapter.ImageSelectionAdapter;
 import com.example.groceryshop01.R;
 
 import com.example.groceryshop01.databinding.ActivityAddItemBinding;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -67,7 +53,6 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         database = FirebaseDatabase.getInstance();
 
-        // Initialize the gallery launcher
         galleryLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -87,16 +72,10 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void setupFoodCategorySpinner() {
-        // Define the list of food categories
         foodCategories = Arrays.asList("Select Category", "Vegetables", "Fruits", "Proteins", "Dairy", "Grains");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, foodCategories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.foodCatSpinner.setAdapter(adapter);
-    }
-
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryLauncher.launch(intent);
     }
 
     private void fetchImageUrlsFromGitHub() {
@@ -141,7 +120,6 @@ public class AddItemActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select an Image");
 
-        // Create a RecyclerView to display images
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(new ImageSelectionAdapter(imageUrls, this::onImageSelected));
@@ -157,7 +135,7 @@ public class AddItemActivity extends AppCompatActivity {
                 .placeholder(R.drawable.add_img)
                 .error(R.drawable.add_img)
                 .into(binding.selectedImg);
-        imageUri = Uri.parse(imageUrl); // Set the image URL for saving
+        imageUri = Uri.parse(imageUrl);
     }
 
     private void loadImageWithGlide(Uri uri) {
@@ -204,13 +182,14 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void uploadData(String categoryKey, String title, String description, double price, String imageUrl) {
-        // Create a new item object with the image URL
+
         Map<String, Object> newItem = new HashMap<>();
         newItem.put("name", title);
         newItem.put("description", description);
         newItem.put("price", price);
         newItem.put("image", imageUrl);
         newItem.put("quantity", 1);
+        newItem.put("score", 3);
 
         DatabaseReference categoryRef = database.getReference("categories").child(categoryKey);
 

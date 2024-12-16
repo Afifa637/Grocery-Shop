@@ -1,10 +1,8 @@
 package com.example.groceryshop01.Activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,10 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +39,6 @@ public class PendingOrderActivity extends AppCompatActivity {
         binding = ActivityPendingOrderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize Firebase Realtime Database
         ordersDatabase = FirebaseDatabase.getInstance().getReference("Orders");
         deliveryRecyclerView = binding.deliveryRecyclerView;
 
@@ -57,7 +50,6 @@ public class PendingOrderActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         pendingOrders = new ArrayList<>();
         pendingOrderAdapter = new PendingOrderAdapter(pendingOrders, this, (order, position) -> {
-            // Update order status and money status on button click
             updateOrderStatus(order.getOrderId(), "accepted");
             updateMoneyStatus(order.getOrderId(), "not received");
             Toast.makeText(this, "Order accepted. View Dispatch for updates!", Toast.LENGTH_SHORT).show();
@@ -83,7 +75,6 @@ public class PendingOrderActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(PendingOrderActivity.this, "Failed to load orders: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

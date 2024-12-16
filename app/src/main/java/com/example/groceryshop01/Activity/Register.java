@@ -46,7 +46,6 @@ public class Register extends AppCompatActivity {
         isAdminBox = findViewById(R.id.checkBoxAdmin);
         isCustomerBox = findViewById(R.id.checkBoxCustomer);
 
-        //check boxes logic
         isCustomerBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(compoundButton.isChecked()){
                 isAdminBox.setChecked(false);
@@ -67,20 +66,17 @@ public class Register extends AppCompatActivity {
             checkField(password);
             checkField(address);
 
-            // Ensure account type is selected
             if (!(isAdminBox.isChecked() || isCustomerBox.isChecked())) {
                 Toast.makeText(Register.this, "Select the Account Type", Toast.LENGTH_SHORT).show();
                 valid = false;
             }
 
             if (valid) {
-                // Proceed with account creation
                 fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                         .addOnSuccessListener(authResult -> {
                             FirebaseUser user = fAuth.getCurrentUser();
                             Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
 
-                            // Store user data
                             DocumentReference df = fStore.collection("Users").document(user.getUid());
                             Map<String, Object> userInfo = new HashMap<>();
                             userInfo.put("FullName", fullname.getText().toString());
@@ -88,7 +84,6 @@ public class Register extends AppCompatActivity {
                             userInfo.put("UserAddress", address.getText().toString());
                             userInfo.put("moneyStatus", "not received");
 
-                            // Specify if user is admin or customer
                             if (isAdminBox.isChecked()) {
                                 userInfo.put("isAdmin", "1");
                             }
@@ -96,10 +91,8 @@ public class Register extends AppCompatActivity {
                                 userInfo.put("isCustomer", "1");
                             }
 
-                            // Save user information in Firestore
                             df.set(userInfo);
 
-                            // Redirect to appropriate activity
                             if (isAdminBox.isChecked()) {
                                 startActivity(new Intent(getApplicationContext(), AdminMainActivity.class));
                             } else if (isCustomerBox.isChecked()) {

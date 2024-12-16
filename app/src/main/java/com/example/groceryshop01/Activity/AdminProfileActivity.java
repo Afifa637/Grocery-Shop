@@ -47,14 +47,14 @@ public class AdminProfileActivity extends AppCompatActivity {
     }
 
     private void loadAdminDetails() {
-        String userId = Objects.requireNonNull(fAuth.getCurrentUser()).getUid(); // Get current logged-in user's ID
+        String userId = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
 
         DocumentReference docRef = fStore.collection("Users").document(userId);
         docRef.get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot.exists()) {
                 // Retrieve and display admin details
-                String name = documentSnapshot.getString("FullName"); // Ensure Firestore has a 'fullname' field
-                String email = documentSnapshot.getString("UserEmail"); // Ensure Firestore has an 'email' field
+                String name = documentSnapshot.getString("FullName");
+                String email = documentSnapshot.getString("UserEmail");
 
                 binding.adminName.setText(name != null ? name : "N/A");
                 binding.adminEmail.setText(email != null ? email : "N/A");

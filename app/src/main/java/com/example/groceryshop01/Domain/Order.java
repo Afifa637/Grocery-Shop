@@ -6,7 +6,6 @@ public class Order {
     private String orderId;
 
     public Order() {
-        // Default constructor for Firebase
     }
 
     public Order(String customerName,  String orderId, String moneyStatus) {

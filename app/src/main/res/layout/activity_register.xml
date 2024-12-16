@@ -8,8 +8,6 @@
     android:background="@color/lighter_goldenrod_yellow"
     tools:context=".Activity.Register">
 
-    <!-- Background Image (Top Half of Screen) -->
-
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="112dp"
@@ -45,8 +43,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-
-    <!-- CardView for Registration Form -->
     <androidx.cardview.widget.CardView
         android:id="@+id/registerCard"
         android:layout_width="match_parent"

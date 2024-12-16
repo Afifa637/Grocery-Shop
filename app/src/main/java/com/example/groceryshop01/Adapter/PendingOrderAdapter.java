@@ -50,7 +50,6 @@ public class PendingOrderAdapter extends RecyclerView.Adapter<PendingOrderAdapte
                 actionListener.onAcceptOrder(order, position);
             }
         });
-        // Set up the RecyclerView for items
         OrderItemsAdapter orderItemsAdapter = new OrderItemsAdapter(order.getItemsList());
         holder.itemsRecyclerView.setAdapter(orderItemsAdapter);
         holder.itemsRecyclerView.setLayoutManager(new LinearLayoutManager(context));

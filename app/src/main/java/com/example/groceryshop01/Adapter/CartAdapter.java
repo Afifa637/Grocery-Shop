@@ -1,6 +1,7 @@
 package com.example.groceryshop01.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -42,32 +43,41 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
     public void onBindViewHolder(@NonNull CartAdapter.Viewholder holder, int position) {
         ItemsModel item = itemsModels.get(position);
 
-        // Set text for item name, price, and quantity
         holder.binding.titleTxt.setText(item.getName());
         holder.binding.feeEachItem.setText(String.format("%s Tk", item.getPrice()));
         holder.binding.totalEachItem.setText(String.format("%s Tk", Math.round(item.getQuantity() * item.getPrice())));
         holder.binding.numberItemTxt.setText(String.valueOf(item.getQuantity()));
 
-        // Load image with Glide
         if (item.getImage() != null && !item.getImage().isEmpty()) {
             int drawableResource = context.getResources().getIdentifier(item.getImage(), "drawable", context.getPackageName());
-            Glide.with(context)
-                    .load(drawableResource)
-                    .transform(new GranularRoundedCorners(30, 30, 0, 0))
-                    .into(holder.binding.menuBtn);
+
+            if (drawableResource != 0) {
+                Glide.with(context)
+                        .load(drawableResource)
+                        .transform(new GranularRoundedCorners(30, 30, 0, 0))
+                        .into(holder.binding.menuBtn);
+                Log.d("CartAdapter", "Loaded drawable: " + item.getImage());
+            } else {
+                Glide.with(context)
+                        .load(item.getImage())
+                        .transform(new GranularRoundedCorners(30, 30, 0, 0))
+                        .into(holder.binding.menuBtn);
+                Log.d("CartAdapter", "Loaded URL: " + item.getImage());
+            }
         } else {
-            holder.binding.menuBtn.setImageResource(R.drawable.add_img); // Default placeholder
+            holder.binding.menuBtn.setImageResource(R.drawable.add_img);
+            Log.d("CartAdapter", "Image not found, using placeholder");
         }
-        // Set up plus and minus button listeners
+
         holder.binding.plusCartBtn.setOnClickListener(v -> managmentCart.plusNumberItem(itemsModels, position, () -> {
             notifyItemChanged(position);
             changeNumberItemsListener.change();
         }));
 
         holder.binding.minusCartBtn.setOnClickListener(v -> managmentCart.minusNumberItem(itemsModels, position, () -> {
-            if (itemsModels.size() > position) {
-                notifyItemRemoved(position); // Notify item removed if it was deleted
-                notifyItemRangeChanged(position, itemsModels.size()); // Update subsequent positions
+            if (itemsModels.size() >= position) {
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, itemsModels.size());
             }
             changeNumberItemsListener.change();
         }));

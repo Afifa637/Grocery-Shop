@@ -39,22 +39,18 @@ public class ProfileActivity extends BaseActivity {
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
 
-        // Load user data into the fields
         loadUserData();
-
-        // Set default to non-editable
         setEditable(false);
 
         binding.editBtn.setOnClickListener(v -> {
             isEditable = !isEditable;
             setEditable(isEditable);
             if (isEditable) {
-                binding.userName.requestFocus(); // Focus on the first editable field
+                binding.userName.requestFocus();
             }
         });
 
         binding.saveinfoBtn.setOnClickListener(v -> {
-            // Save the updated data
             saveUserData();
         });
 
@@ -95,8 +91,8 @@ public class ProfileActivity extends BaseActivity {
             if (documentSnapshot.exists()) {
                 binding.userName.setText(documentSnapshot.getString("FullName"));
                 binding.userEmail.setText(documentSnapshot.getString("UserEmail"));
-                binding.userAddr.setText(documentSnapshot.getString("UserAddress")); // Ensure this field exists in Firestore
-                binding.userPass.setText("******"); // Mask the password for display
+                binding.userAddr.setText(documentSnapshot.getString("UserAddress"));
+                binding.userPass.setText("******");
             } else {
                 Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
             }
@@ -111,13 +107,11 @@ public class ProfileActivity extends BaseActivity {
         String email = binding.userEmail.getText().toString();
         String address = binding.userAddr.getText().toString();
 
-        // Create a map with the updated data
         Map<String, Object> userData = new HashMap<>();
         userData.put("FullName", fullName);
         userData.put("UserEmail", email);
         userData.put("UserAddress", address);
 
-        // Update the Firestore document
         DocumentReference docRef = fStore.collection("Users").document(userId);
         docRef.update(userData).addOnSuccessListener(unused -> {
             Toast.makeText(this, "User info updated", Toast.LENGTH_SHORT).show();

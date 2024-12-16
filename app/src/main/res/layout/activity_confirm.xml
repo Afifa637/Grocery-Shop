@@ -58,13 +58,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/tile_bg"
-        android:paddingStart="24dp"
+        android:paddingStart="34dp"
         android:paddingTop="32dp"
         android:paddingEnd="24dp"
+        android:elevation="5dp"
         android:paddingBottom="32dp">
 
-      <!-- Title -->
       <TextView
           android:id="@+id/titleTxt"
           android:layout_width="wrap_content"
@@ -77,7 +79,6 @@
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent" />
 
-      <!-- Divider -->
       <View
           android:id="@+id/divider1"
           android:layout_width="match_parent"
@@ -88,7 +89,6 @@
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@id/titleTxt" />
 
-      <!-- Store Name -->
       <TextView
           android:id="@+id/storeNameLabel"
           android:layout_width="wrap_content"
@@ -110,7 +110,6 @@
           app:layout_constraintStart_toEndOf="@id/storeNameLabel"
           app:layout_constraintTop_toTopOf="@id/storeNameLabel" />
 
-      <!-- Date -->
       <TextView
           android:id="@+id/dateLabel"
           android:layout_width="wrap_content"
@@ -132,7 +131,6 @@
           app:layout_constraintStart_toEndOf="@id/dateLabel"
           app:layout_constraintTop_toTopOf="@id/dateLabel" />
 
-      <!-- Transaction ID -->
       <TextView
           android:id="@+id/transactionIdLabel"
           android:layout_width="wrap_content"
@@ -154,7 +152,6 @@
           app:layout_constraintStart_toEndOf="@id/transactionIdLabel"
           app:layout_constraintTop_toTopOf="@id/transactionIdLabel" />
 
-      <!-- User Name -->
       <TextView
           android:id="@+id/userNameLabel"
           android:layout_width="wrap_content"
@@ -176,7 +173,6 @@
           app:layout_constraintStart_toEndOf="@id/userNameLabel"
           app:layout_constraintTop_toTopOf="@id/userNameLabel" />
 
-      <!-- Email -->
       <TextView
           android:id="@+id/userEmailLabel"
           android:layout_width="wrap_content"
@@ -198,7 +194,6 @@
           app:layout_constraintStart_toEndOf="@id/userEmailLabel"
           app:layout_constraintTop_toTopOf="@id/userEmailLabel" />
 
-      <!-- Delivery Address -->
       <TextView
           android:id="@+id/deliveryAddressLabel"
           android:layout_width="wrap_content"
@@ -220,7 +215,6 @@
           app:layout_constraintStart_toEndOf="@id/deliveryAddressLabel"
           app:layout_constraintTop_toTopOf="@id/deliveryAddressLabel" />
 
-      <!-- Divider -->
       <View
           android:id="@+id/divider2"
           android:layout_width="match_parent"
@@ -231,7 +225,6 @@
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@id/deliveryAddressTxt" />
 
-      <!-- Payment Method -->
       <TextView
           android:id="@+id/paymentMethodLabel"
           android:layout_width="wrap_content"
@@ -253,7 +246,6 @@
           app:layout_constraintStart_toEndOf="@id/paymentMethodLabel"
           app:layout_constraintTop_toTopOf="@id/paymentMethodLabel" />
 
-      <!-- Total -->
       <TextView
           android:id="@+id/totalLabel"
           android:layout_width="wrap_content"
